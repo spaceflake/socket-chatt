@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import logo from './logo.svg'
+import { io, Socket } from 'socket.io-client'
+import { ServerToClientEvents, ClientToServerEvents } from '../../types'
+
 import './App.css'
 import MessageContainer from './components/MessageContainer'
 import Form from './components/Form'
@@ -7,13 +9,17 @@ import RoomList from './components/RoomList'
 import ActiveList from './components/ActiveList'
 import StatusBox from './components/StatusBox'
 
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
+  autoConnect: false,
+})
+
 function App() {
   const [isActive, setIsActive] = useState(false)
 
   return (
     <div className="App">
       {!isActive ? (
-        <div>set nick form</div>
+        <Form socket={socket} active={setIsActive} />
       ) : (
         <>
           <div>
