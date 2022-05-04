@@ -45,11 +45,11 @@ function Form({
 
       console.log('hejsan. här är jag');
       socket.emit('join', room);
+      socket.on('joined', (room) => {
+        console.log('Joined room: ', room);
+        joinedRoom = room;
+      });
     }
-    // socket.on('joined', (room) => {
-    //   console.log('Joined room: ', room);
-    //   joinedRoom = room;
-    // });
 
     // if (setWritingMessage && socket) {
     //   const message = data.input;

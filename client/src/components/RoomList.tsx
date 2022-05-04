@@ -1,3 +1,5 @@
+import { io, Socket } from 'socket.io-client';
+
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import {
   Modal,
@@ -12,6 +14,12 @@ import {
 } from '@chakra-ui/react';
 import Form from './Form';
 import { useState } from 'react';
+import { ClientToServerEvents, ServerToClientEvents } from '../../../types';
+
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
+  autoConnect: false,
+});
+
 function RoomList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [creatingRoom, setCreatingRoom] = useState(false);
@@ -32,7 +40,7 @@ function RoomList() {
           <ModalHeader>Name your room</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Form {...{ setCreatingRoom, creatingRoom }} />
+            <Form {...{ setCreatingRoom, creatingRoom, socket }} />
           </ModalBody>
         </ModalContent>
       </Modal>
