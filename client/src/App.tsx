@@ -8,14 +8,7 @@ import Form from "./components/Form";
 import RoomList from "./components/RoomList";
 import ActiveList from "./components/ActiveList";
 import StatusBox from "./components/StatusBox";
-import {
-  Box,
-  Container,
-  Divider,
-  Flex,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Container, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
   autoConnect: false,
@@ -33,33 +26,49 @@ function App() {
         </Flex>
       ) : (
         <>
-          <Flex w="100%" h="100vh">
+          <Flex h="100vh">
             {/* conditional for active users in room */}
             <Flex
               direction="column"
               gap="2rem"
-              w="max-content"
+              w="15vw"
               h="100%"
               bg="black"
               color="white"
-              position='relative'
+              position="relative"
             >
-              <Box mt={10} p={5}>
-                <Text>DM's</Text>
-
-                <Divider />
-                <ActiveList />
-                <Divider />
+              <Box mt={10} p={5} className="leftSideBar">
+                {/* should have scroll if too many items (in this specific box) */}
+                <Heading>DM's</Heading>
+                <Divider borderWidth={3} mt={5} mb={5} />
+                {/* should have scroll if too many items (in this specific box) */}
+                <Heading>All rooms</Heading>
                 <RoomList />
-                <Divider />
+                <Divider borderWidth={3} mt={5} mb={5} />
               </Box>
-              <Box bg="gray" position='absolute' bottom='0' w='100%'>
+              <Box bg="gray" position="absolute" bottom="0" w="100%">
                 <StatusBox />
               </Box>
             </Flex>
-            <Box w="80%">
+            {/* should have scroll if too many items (in this specific box) */}
+            <Box w="100%">
               <MessageContainer />
             </Box>
+            <Flex
+              direction="column"
+              gap="2rem"
+              w="15vw"
+              h="100%"
+              bg="black"
+              color="white"
+            >
+              {/* should have scroll if too many items (in this specific box) */}
+              <Box mt={5} p={5} className="rightSideBar">
+                <Heading>All online</Heading>
+                <Divider borderWidth={3} mt={5} mb={5} />
+                <ActiveList />
+              </Box>
+            </Flex>
           </Flex>
         </>
       )}
