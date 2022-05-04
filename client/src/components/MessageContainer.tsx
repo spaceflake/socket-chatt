@@ -7,14 +7,18 @@ import { Box, Heading } from "@chakra-ui/react";
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 
 function MessageContainer() {
+
   const [Messages, setMessages] = useState<string[]>([]);
   const firstRun = useRef(true);
 
-  useEffect(() => {
-    socket.on("chat message", (message) => {
-      setMessages([...Messages, message]);
-    });
-  }, [Messages]);
+  const [Messages, setMessages] = useState<string[]>([])
+
+  // useEffect(() => {
+  //   socket.on('chat message', (message) => {
+  //     setMessages([...Messages, message])
+  //   })
+  // }, [Messages])
+
 
   return (
     <Box height="100%" position="relative">
