@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "run-p server client",
+    "postinstall": "run-p server-install client-install",
+    "client": "cd client && npm start",
+    "server": "cd server && npm start",
+    "client-install": "cd client && npm i",
+    "server-install": "cd server && npm i"
   },
   "keywords": [],
   "author": "",
