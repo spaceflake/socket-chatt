@@ -7,16 +7,10 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io()
 function Form() {
   const [input, setInput] = useState('')
 
-  useEffect(() => {
-    socket.on('welcome', (message) => {
-      console.log(message)
-    })
-  }, [])
-
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
-    socket.emit('chat message', input)
-    setInput('')
+    // socket.emit('message', input, to)
+    // setInput('')
   }
 
   return (
