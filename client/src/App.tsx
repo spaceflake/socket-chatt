@@ -8,6 +8,7 @@ import Form from './components/Form'
 import RoomList from './components/RoomList'
 import ActiveList from './components/ActiveList'
 import StatusBox from './components/StatusBox'
+import { Box, Center, Container, Flex, Heading } from '@chakra-ui/react'
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
   autoConnect: false,
@@ -17,9 +18,12 @@ function App() {
   const [isActive, setIsActive] = useState(false)
 
   return (
-    <div className="App">
+    <Container h="100%">
       {!isActive ? (
-        <Form socket={socket} active={setIsActive} />
+        <Flex h="100%" justify="center" align="center" direction="column">
+          <Heading>Welcome</Heading>
+          <Form socket={socket} active={setIsActive} />
+        </Flex>
       ) : (
         <>
           <div>
@@ -32,7 +36,7 @@ function App() {
           <MessageContainer />
         </>
       )}
-    </div>
+    </Container>
   )
 }
 
