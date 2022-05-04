@@ -14,10 +14,16 @@ import Form from './Form';
 import { useState } from 'react';
 function RoomList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [creatingRoom, setCreatingRoom] = useState(true);
+  const [creatingRoom, setCreatingRoom] = useState(false);
   return (
     <>
-      <Button onClick={onOpen} rightIcon={<AddCircleOutlineRoundedIcon />}>
+      <Button
+        onClick={() => {
+          onOpen();
+          setCreatingRoom(true);
+        }}
+        rightIcon={<AddCircleOutlineRoundedIcon />}
+      >
         Create Room
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -26,7 +32,7 @@ function RoomList() {
           <ModalHeader>Name your room</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Form {...{ setCreatingRoom }} />
+            <Form {...{ setCreatingRoom, creatingRoom }} />
           </ModalBody>
         </ModalContent>
       </Modal>
