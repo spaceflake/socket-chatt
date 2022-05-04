@@ -8,6 +8,7 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 
 function MessageContainer() {
   const [Messages, setMessages] = useState<string[]>([]);
+  const [writingMessage, setWritingMessage] = useState(true);
   const firstRun = useRef(true);
 
   // useEffect(() => {
@@ -27,7 +28,7 @@ function MessageContainer() {
         </ul>
       </Box>
       <Box position="absolute" bottom={0} w="100%">
-        <Form />
+        <Form {...{ setWritingMessage }} />
       </Box>
     </Box>
   );
