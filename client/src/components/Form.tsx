@@ -5,27 +5,26 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react'
 
 interface formProps {
-  socket: Socket<ServerToClientEvents, ClientToServerEvents>
-  active: Dispatch<SetStateAction<boolean>>
+  socket?: Socket<ServerToClientEvents, ClientToServerEvents>
+  setIsOnline?: Dispatch<SetStateAction<boolean>>
 }
 type Inputs = {
   input: string
 }
 
-function Form(props: formProps) {
-  const socket = props.socket
-  const active = props.active
-
+function Form({ socket, setIsOnline }: formProps) {
   const { register, handleSubmit, watch } = useForm<Inputs>()
 
   // console.log(watch('input'))
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data)
-    socket.auth = { nickname: data.input }
-    socket.connect()
+    if (socket) {
+      socket.auth = { nickname: data.input }
+      socket.connect()
+    }
 
-    active(true)
+    setIsOnline && setIsOnline(true)
   }
 
   return (
