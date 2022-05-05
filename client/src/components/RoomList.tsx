@@ -18,7 +18,7 @@ function RoomList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [creatingRoom, setCreatingRoom] = useState(false);
   // const [room, setRoom] = useState('');
-  const { socket } = useContext(SocketContext);
+  const { socket, allRooms } = useContext(SocketContext);
 
   useEffect(() => {
     if (!creatingRoom) {
@@ -48,6 +48,9 @@ function RoomList() {
         </ModalContent>
       </Modal>
       <h1>Roomlist</h1>
+      {allRooms.map((room, index) => (
+        <li key={index}>{room}</li>
+      ))}
     </>
   );
 }

@@ -26,7 +26,7 @@ function Form({
   creatingRoom,
 }: formProps) {
   const { register, handleSubmit, watch } = useForm<Inputs>();
-  const { socket, nickname, roomsa } = useContext(SocketContext);
+  const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
 
   // console.log(watch('input'))
 
@@ -34,10 +34,6 @@ function Form({
     if (socket && !creatingRoom) {
       socket.connect();
       socket.auth = { nickname: data.input };
-
-      console.log(socket);
-
-      console.log('1', data);
     }
     if (creatingRoom && setCreatingRoom && socket) {
       socket.connect();
@@ -47,7 +43,6 @@ function Form({
         return;
       }
       socket.emit('join', room);
-      console.log(roomsa);
 
       setCreatingRoom(false);
     }
@@ -59,7 +54,7 @@ function Form({
         return;
       }
 
-      socket.emit('message', data.input, room);
+      socket.emit('message', data.input, joinedRoom);
       console.log('3', data);
     }
 

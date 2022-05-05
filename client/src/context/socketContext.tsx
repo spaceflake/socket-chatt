@@ -6,7 +6,8 @@ import { ClientToServerEvents, ServerToClientEvents } from '../../../types';
 interface IContext {
   socket: Socket<ServerToClientEvents, ClientToServerEvents>;
   nickname: string;
-  roomsa: string[];
+  allRooms: string[];
+  joinedRoom: string;
 }
 
 interface Props {
@@ -16,7 +17,8 @@ interface Props {
 const defaultState = {
   socket: io(),
   nickname: '',
-  roomsa: [],
+  allRooms: [],
+  joinedRoom: '',
 };
 
 export const SocketContext = createContext<IContext>(defaultState);
@@ -24,7 +26,8 @@ export const SocketContext = createContext<IContext>(defaultState);
 export const SocketProvider = ({ children }: Props) => {
   const [socket, setSocket] = useState(defaultState.socket);
   const [nickname, setNickname] = useState(defaultState.nickname);
-  const [roomsa, setRoomsa] = useState(defaultState.roomsa);
+  const [allRooms, setAllRooms] = useState(defaultState.allRooms);
+  const [joinedRoom, setJoinedRoom] = useState(defaultState.joinedRoom);
 
   useEffect(() => {
     setSocket(socket);
@@ -40,7 +43,12 @@ export const SocketProvider = ({ children }: Props) => {
 
     socket.on('roomList', (rooms) => {
       console.log(rooms);
-      setRoomsa(roomsa.concat(rooms));
+      setAllRooms(allRooms.concat(rooms));
+    });
+
+    socket.on('joined', (room) => {
+      console.log(room);
+      setJoinedRoom(room);
     });
 
     // return () => {
@@ -52,7 +60,7 @@ export const SocketProvider = ({ children }: Props) => {
   }, [socket]);
 
   return (
-    <SocketContext.Provider value={{ socket, nickname, roomsa }}>
+    <SocketContext.Provider value={{ socket, nickname, allRooms, joinedRoom }}>
       {children}
     </SocketContext.Provider>
   );

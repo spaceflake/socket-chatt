@@ -6,7 +6,7 @@ import { SocketContext } from '../context/socketContext';
 function MessageContainer() {
   const [Messages, setMessages] = useState<string[]>([]);
   const [writingMessage, setWritingMessage] = useState(true);
-  const { socket, nickname, roomsa } = useContext(SocketContext);
+  const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
 
   useEffect(() => {
     // socket.on('chat message', (message) => {
@@ -14,19 +14,17 @@ function MessageContainer() {
     // })
     socket.on('connect', () => {
       console.log('connected');
-      console.log(nickname);
     });
     // socket.on('roomList', (rooms) => {
     //   console.log(rooms);
     // });
-    console.log(socket);
   }, []);
 
   return (
     <Box height="100%" position="relative">
       <Box>
         <ul id="messages">
-          <Heading textAlign="center">All messages in *chatroomname*</Heading>
+          <Heading textAlign="center">All messages in {joinedRoom}</Heading>
           {Messages.map((message, index) => (
             <li key={index}>{message}</li>
           ))}
