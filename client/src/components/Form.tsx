@@ -1,11 +1,15 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
-import { ServerToClientEvents, ClientToServerEvents } from '../../../types';
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { SocketContext } from '../context/socketContext';
 
 interface formProps {
-  socket: Socket<ServerToClientEvents, ClientToServerEvents>;
   setIsOnline?: Dispatch<SetStateAction<boolean>>;
   setCreatingRoom?: Dispatch<SetStateAction<boolean>>;
   setWritingMessage?: Dispatch<SetStateAction<boolean>>;
@@ -16,43 +20,48 @@ type Inputs = {
 };
 
 function Form({
-  socket,
   setIsOnline,
   setCreatingRoom,
   setWritingMessage,
   creatingRoom,
 }: formProps) {
   const { register, handleSubmit, watch } = useForm<Inputs>();
+  const { socket, nickname, roomsa } = useContext(SocketContext);
 
   // console.log(watch('input'))
-  console.log(creatingRoom);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (socket && !creatingRoom) {
-      socket.auth = { nickname: data.input };
       socket.connect();
+      socket.auth = { nickname: data.input };
+
+      console.log(socket);
+
       console.log('1', data);
     }
     if (creatingRoom && setCreatingRoom && socket) {
+      socket.connect();
       let room = data.input;
       if (!room.length) {
         console.log('Ogiltigt namn på rum...');
         return;
       }
       socket.emit('join', room);
+      console.log(roomsa);
+
       setCreatingRoom(false);
     }
 
-    // if (setWritingMessage) {
-    //   const message = data.input;
-    //   if (!message.length) {
-    //     console.log('För kort meddelande');
-    //     return;
-    //   }
+    if (setWritingMessage) {
+      const message = data.input;
+      if (!message.length) {
+        console.log('För kort meddelande');
+        return;
+      }
 
-    //   socket.emit('message', data.input, joinedRoom);
-    //   console.log('3', data);
-    // }
+      socket.emit('message', data.input, room);
+      console.log('3', data);
+    }
 
     setIsOnline && setIsOnline(true);
   };

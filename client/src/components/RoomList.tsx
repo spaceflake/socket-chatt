@@ -1,5 +1,3 @@
-import { io, Socket } from 'socket.io-client';
-
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import {
   Modal,
@@ -13,17 +11,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import Form from './Form';
-import { useEffect, useState } from 'react';
-import { ClientToServerEvents, ServerToClientEvents } from '../../../types';
-
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
-  autoConnect: false,
-});
+import { useContext, useEffect, useState } from 'react';
+import { SocketContext } from '../context/socketContext';
 
 function RoomList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [creatingRoom, setCreatingRoom] = useState(false);
-  const [room, setRoom] = useState('');
+  // const [room, setRoom] = useState('');
+  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     if (!creatingRoom) {

@@ -1,21 +1,26 @@
 import Form from './Form';
-import { io, Socket } from 'socket.io-client';
-import { ServerToClientEvents, ClientToServerEvents } from '../../../types';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Box, Heading } from '@chakra-ui/react';
-
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
+import { SocketContext } from '../context/socketContext';
 
 function MessageContainer() {
   const [Messages, setMessages] = useState<string[]>([]);
   const [writingMessage, setWritingMessage] = useState(true);
-  const firstRun = useRef(true);
+  const { socket, nickname, roomsa } = useContext(SocketContext);
 
-  // useEffect(() => {
-  //   socket.on('chat message', (message) => {
-  //     setMessages([...Messages, message])
-  //   })
-  // }, [Messages])
+  useEffect(() => {
+    // socket.on('chat message', (message) => {
+    //   setMessages([...Messages, message])
+    // })
+    socket.on('connect', () => {
+      console.log('connected');
+      console.log(nickname);
+    });
+    // socket.on('roomList', (rooms) => {
+    //   console.log(rooms);
+    // });
+    console.log(socket);
+  }, []);
 
   return (
     <Box height="100%" position="relative">
