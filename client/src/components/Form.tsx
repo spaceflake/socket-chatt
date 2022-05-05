@@ -1,46 +1,53 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
-import { ServerToClientEvents, ClientToServerEvents } from '../../../types';
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { SocketContext } from '../context/socketContext';
 
 interface formProps {
-  socket?: Socket<ServerToClientEvents, ClientToServerEvents>;
   setIsOnline?: Dispatch<SetStateAction<boolean>>;
   setCreatingRoom?: Dispatch<SetStateAction<boolean>>;
   setWritingMessage?: Dispatch<SetStateAction<boolean>>;
+  creatingRoom?: boolean;
 }
 type Inputs = {
   input: string;
 };
 
 function Form({
-  socket,
   setIsOnline,
   setCreatingRoom,
   setWritingMessage,
+  creatingRoom,
 }: formProps) {
   const { register, handleSubmit, watch } = useForm<Inputs>();
+  const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
 
   // console.log(watch('input'))
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-    if (socket) {
-      socket.auth = { nickname: data.input };
+    if (socket && !creatingRoom) {
       socket.connect();
+      socket.auth = { nickname: data.input };
     }
-
-    if (setCreatingRoom && socket) {
-      const room = data.input;
+    if (creatingRoom && setCreatingRoom && socket) {
+      socket.connect();
+      let room = data.input;
       if (!room.length) {
         console.log('Ogiltigt namn på rum...');
         return;
       }
       socket.emit('join', room);
+
+      setCreatingRoom(false);
     }
 
-    if (setWritingMessage && socket) {
+    if (setWritingMessage) {
       const message = data.input;
       if (!message.length) {
         console.log('För kort meddelande');
@@ -48,16 +55,20 @@ function Form({
       }
 
       socket.emit('message', data.input, joinedRoom);
+      console.log('3', data);
     }
 
     setIsOnline && setIsOnline(true);
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormControl>
         <FormLabel htmlFor="input">
-          {!setCreatingRoom ? 'Enter your nickname, stupid!' : 'Enter roomname'}
+          {setIsOnline
+            ? 'Enter your nickname, stupid!'
+            : setCreatingRoom
+            ? 'Enter roomname'
+            : setWritingMessage && ''}
         </FormLabel>
         <Input
           type="text"
@@ -67,7 +78,7 @@ function Form({
         />
       </FormControl>
       <Button type="submit" w="full" variant="solid">
-        {!setCreatingRoom ? 'Send' : 'Create Room'}
+        {!creatingRoom ? 'Send' : 'Create Room'}
       </Button>
     </form>
   );

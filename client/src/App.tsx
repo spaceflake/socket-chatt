@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { io, Socket } from 'socket.io-client';
-import { ServerToClientEvents, ClientToServerEvents } from '../../types';
+import { useContext, useEffect, useState } from 'react';
 
 import './App.css';
 import MessageContainer from './components/MessageContainer';
@@ -9,20 +7,22 @@ import RoomList from './components/RoomList';
 import ActiveList from './components/ActiveList';
 import StatusBox from './components/StatusBox';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
-
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
-  autoConnect: false,
-});
+import { SocketContext } from './context/socketContext';
 
 function App() {
   const [isOnline, setIsOnline] = useState(false);
+  const socket = useContext(SocketContext);
+
+  // useEffect(() => {
+  //   socket;
+  // }, []);
 
   return (
     <Container bg="gray.100" maxW="100%" h="100vh" padding="0" margin="0">
       {!isOnline ? (
         <Flex h="100%" justify="center" align="center" direction="column">
           <Heading>Welcome</Heading>
-          <Form {...{ socket, setIsOnline }} />
+          <Form {...{ setIsOnline }} />
         </Flex>
       ) : (
         <>
