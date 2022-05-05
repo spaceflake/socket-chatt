@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import Form from './Form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ClientToServerEvents, ServerToClientEvents } from '../../../types';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
@@ -23,6 +23,14 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
 function RoomList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [creatingRoom, setCreatingRoom] = useState(false);
+  const [room, setRoom] = useState('');
+
+  useEffect(() => {
+    if (!creatingRoom) {
+      onClose();
+    }
+  }, [creatingRoom]);
+
   return (
     <>
       <Button

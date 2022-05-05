@@ -14,7 +14,6 @@ interface formProps {
 type Inputs = {
   input: string;
 };
-let joinedRoom: string;
 
 function Form({
   socket,
@@ -34,24 +33,22 @@ function Form({
       socket.connect();
       console.log('1', data);
     }
-    if (creatingRoom) {
-      console.log('öldfj');
-
-      const room = data.input;
+    if (creatingRoom && setCreatingRoom) {
+      let room = data.input;
       if (!room.length) {
         console.log('Ogiltigt namn på rum...');
         return;
       }
 
-      console.log('hejsan. här är jag');
       socket.emit('join', room);
-      socket.on('joined', (room) => {
-        console.log('Joined room: ', room);
-        joinedRoom = room;
-      });
+      setCreatingRoom(false);
+      // socket.on('joined', (room) => {
+      //   console.log('Joined room: ', room);
+      //   setRoom(room);
+      // });
     }
 
-    // if (setWritingMessage && socket) {
+    // if (setWritingMessage) {
     //   const message = data.input;
     //   if (!message.length) {
     //     console.log('För kort meddelande');
