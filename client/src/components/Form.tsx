@@ -33,19 +33,14 @@ function Form({
       socket.connect();
       console.log('1', data);
     }
-    if (creatingRoom && setCreatingRoom) {
+    if (creatingRoom && setCreatingRoom && socket) {
       let room = data.input;
       if (!room.length) {
         console.log('Ogiltigt namn på rum...');
         return;
       }
-
       socket.emit('join', room);
       setCreatingRoom(false);
-      // socket.on('joined', (room) => {
-      //   console.log('Joined room: ', room);
-      //   setRoom(room);
-      // });
     }
 
     // if (setWritingMessage) {

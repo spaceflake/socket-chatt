@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ServerToClientEvents, ClientToServerEvents } from '../../types';
 
@@ -10,12 +10,24 @@ import ActiveList from './components/ActiveList';
 import StatusBox from './components/StatusBox';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
-  autoConnect: false,
-});
+interface ISocket {
+  socket: Socket<ServerToClientEvents, ClientToServerEvents>;
+}
+// const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io({
+//   autoConnect: false,
+// });
 
 function App() {
   const [isOnline, setIsOnline] = useState(false);
+  const [socket, setSocket] = useState();
+
+  useEffect(() => {
+    const newSocket = io({
+      autoConnect: false,
+    });
+    setSocket(newSocket);
+    return () => newSocket.close();
+  }, [setSocket]);
 
   return (
     <Container bg="gray.100" maxW="100%" h="100vh" padding="0" margin="0">
