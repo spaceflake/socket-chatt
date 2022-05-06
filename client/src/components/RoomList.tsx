@@ -9,6 +9,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Box,
 } from '@chakra-ui/react';
 import Form from './Form';
 import { useContext, useEffect, useState } from 'react';
@@ -49,7 +50,9 @@ function RoomList() {
       </Modal>
       <h1>Roomlist</h1>
       {allRooms.map((room, index) => (
-        <li key={index}>{room}</li>
+        <Box key={room}>
+          <li>{room}</li>
+        </Box>
       ))}
     </>
   );
