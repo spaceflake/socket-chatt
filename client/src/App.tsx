@@ -51,7 +51,7 @@ function App() {
               </Box>
             </Flex>
             {/* should have scroll if too many items (in this specific box) */}
-            <Box w="100%">
+            <Box w="100%" h="100%">
               <MessageContainer />
             </Box>
             <Flex
