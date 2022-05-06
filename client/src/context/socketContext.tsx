@@ -9,6 +9,7 @@ interface IContext {
   allRooms: string[];
   joinedRoom: string;
   leftRoom: string;
+  chatMessage: string
 }
 
 interface Props {
@@ -21,6 +22,7 @@ const defaultState = {
   allRooms: [],
   joinedRoom: '',
   leftRoom: '',
+  chatMessage:''
 };
 
 export const SocketContext = createContext<IContext>(defaultState);
@@ -31,6 +33,7 @@ export const SocketProvider = ({ children }: Props) => {
   const [allRooms, setAllRooms] = useState(defaultState.allRooms);
   const [joinedRoom, setJoinedRoom] = useState(defaultState.joinedRoom);
   const [leftRoom, setleftRoom] = useState(defaultState.leftRoom);
+  const [chatMessage, setChatMessage] = useState(defaultState.chatMessage);
 
   useEffect(() => {
     setSocket(socket);
@@ -58,6 +61,10 @@ export const SocketProvider = ({ children }: Props) => {
       console.log('user has left room: ' + room);
       setleftRoom(room);
     });
+
+    socket.on('message',(chatMessage) =>{
+      // do stuff...
+    })
 
     // return () => {
     //   // Anything in here is fired on component unmount.
