@@ -39,6 +39,8 @@ export const SocketProvider = ({ children }: Props) => {
 
     console.log(socket);
 
+    // dags för mess
+
     socket.on('connected', (nickname) => {
       console.log('Nickname: ' + nickname);
       setNickname(nickname);
