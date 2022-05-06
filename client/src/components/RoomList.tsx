@@ -27,6 +27,10 @@ function RoomList() {
     }
   }, [creatingRoom]);
 
+  // const handleJoin = () => {
+  //   socket.emit('join');
+  // };
+
   return (
     <>
       <Button
@@ -50,8 +54,17 @@ function RoomList() {
       </Modal>
       <h1>Roomlist</h1>
       {allRooms.map((room, index) => (
-        <Box key={room}>
-          <li>{room}</li>
+        <Box
+          as="button"
+          key={room}
+          value={room}
+          bg="blue"
+          mb="1"
+          onClick={() => {
+            socket.emit('join', room);
+          }}
+        >
+          Roomname: {room}
         </Box>
       ))}
     </>

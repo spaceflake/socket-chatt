@@ -20,7 +20,7 @@ const defaultState = {
   nickname: '',
   allRooms: [],
   joinedRoom: '',
-  leftRoom:'',
+  leftRoom: '',
 };
 
 export const SocketContext = createContext<IContext>(defaultState);
@@ -50,14 +50,14 @@ export const SocketProvider = ({ children }: Props) => {
     });
 
     socket.on('joined', (room) => {
-      console.log('user has joined room: ' +room);
+      console.log('user has joined room: ' + room);
       setJoinedRoom(room);
     });
 
-    socket.on('left',(room) =>{
-      console.log('user has left room: ' + room)
-      setleftRoom(room)
-    })
+    socket.on('left', (room) => {
+      console.log('user has left room: ' + room);
+      setleftRoom(room);
+    });
 
     // return () => {
     //   // Anything in here is fired on component unmount.
@@ -68,7 +68,9 @@ export const SocketProvider = ({ children }: Props) => {
   }, [socket]);
 
   return (
-    <SocketContext.Provider value={{ socket, nickname, allRooms, joinedRoom, leftRoom }}>
+    <SocketContext.Provider
+      value={{ socket, nickname, allRooms, joinedRoom, leftRoom }}
+    >
       {children}
     </SocketContext.Provider>
   );
