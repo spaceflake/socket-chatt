@@ -9,6 +9,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Box,
 } from '@chakra-ui/react';
 import Form from './Form';
 import { useContext, useEffect, useState } from 'react';
@@ -18,13 +19,17 @@ function RoomList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [creatingRoom, setCreatingRoom] = useState(false);
   // const [room, setRoom] = useState('');
-  const { socket, allRooms } = useContext(SocketContext);
+  const { socket, allRooms, joinedRoom } = useContext(SocketContext);
 
   useEffect(() => {
     if (!creatingRoom) {
       onClose();
     }
   }, [creatingRoom]);
+
+  // const handleJoin = () => {
+  //   socket.emit('join');
+  // };
 
   return (
     <>
@@ -49,7 +54,23 @@ function RoomList() {
       </Modal>
       <h1>Roomlist</h1>
       {allRooms.map((room, index) => (
-        <li key={index}>{room}</li>
+        <Box
+          as="button"
+          key={room}
+          value={room}
+          bg="#739099"
+          borderRadius="sm"
+          p="2"
+          mb="1"
+          onClick={() => {
+            socket.emit('leave', joinedRoom)
+            console.log('user has left' + joinedRoom)
+            socket.emit('join', room);
+            console.log(allRooms)
+          }}
+        >
+          Roomname: {room}
+        </Box>
       ))}
     </>
   );
