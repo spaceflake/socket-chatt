@@ -18,6 +18,7 @@ export default (io: Server, socket: Socket) => {
   socket.on('leave', (room) => {
     socket.leave(room);
     io.to(room).emit(`user has left the room`);
+    io.emit('roomList', getRooms(io))
   })
 
   socket.on('message', (message, to) => {
