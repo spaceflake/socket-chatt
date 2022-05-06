@@ -25,8 +25,8 @@ function Form({
   setWritingMessage,
   creatingRoom,
 }: formProps) {
-  const { register, handleSubmit, watch } = useForm<Inputs>();
-  const { socket, nickname, allRooms, joinedRoom, chatMessage } = useContext(SocketContext);
+  const { register, handleSubmit, watch, reset } = useForm<Inputs>();
+  const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
 
   // console.log(watch('input'))
 
@@ -48,13 +48,15 @@ function Form({
     }
 
     if (setWritingMessage) {
-      const message = data.input;
+      let message = data.input;
       if (!message.length) {
         console.log('För kort meddelande');
         return;
       }
 
-      socket.emit('message', data.input, joinedRoom)
+      socket.emit('message', message, joinedRoom);
+
+      reset();
       console.log('3', data);
     }
 

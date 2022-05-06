@@ -3,13 +3,18 @@ import { io, Socket } from 'socket.io-client';
 
 import { ClientToServerEvents, ServerToClientEvents } from '../../../types';
 
+export interface Chats {
+  sender: string;
+  msg: string;
+}
+
 interface IContext {
   socket: Socket<ServerToClientEvents, ClientToServerEvents>;
   nickname: string;
   allRooms: string[];
   joinedRoom: string;
   leftRoom: string;
-  chatMessage: string
+  chatMessages: Chats[];
 }
 
 interface Props {
@@ -22,7 +27,12 @@ const defaultState = {
   allRooms: [],
   joinedRoom: '',
   leftRoom: '',
-  chatMessage:''
+  chatMessages: [
+    {
+      sender: '',
+      msg: '',
+    },
+  ],
 };
 
 export const SocketContext = createContext<IContext>(defaultState);
@@ -33,7 +43,7 @@ export const SocketProvider = ({ children }: Props) => {
   const [allRooms, setAllRooms] = useState(defaultState.allRooms);
   const [joinedRoom, setJoinedRoom] = useState(defaultState.joinedRoom);
   const [leftRoom, setleftRoom] = useState(defaultState.leftRoom);
-  const [chatMessage, setChatMessage] = useState(defaultState.chatMessage);
+  const [chatMessages, setchatMessages] = useState(defaultState.chatMessages);
 
   useEffect(() => {
     setSocket(socket);
@@ -64,23 +74,31 @@ export const SocketProvider = ({ children }: Props) => {
       setleftRoom(room);
     });
 
-    socket.on('message',(chatMessage) =>{
-      console.log(nickname +' wrote : ' + chatMessage)
+    socket.on('message', (chatMessage: string, from) => {
+      console.log(
+        'ehheheheheehheheh' + from.nickname + ' wrote : ' + chatMessage
+      );
+      chatMessages.push({ sender: from.nickname, msg: chatMessage });
+      setchatMessages(chatMessages);
+      console.log(chatMessages);
+    });
+    // socket.on('message', (chatMessage: string) => {
+    //   console.log(nickname + ' wrote : ' + chatMessage);
+    //   const newMessageList = [chatMessage, ...Messages];
+    //   setMessages(newMessageList);
+    // });
 
-      setChatMessage(chatMessage)
-    })
-
-    // return () => {
-    //   // Anything in here is fired on component unmount.
-    //   if (socket) {
-    //     socket.disconnect();
-    //   }
-    // };
+    return () => {
+      // Anything in here is fired on component unmount.
+      if (socket) {
+        socket.disconnect();
+      }
+    };
   }, [socket]);
 
   return (
     <SocketContext.Provider
-      value={{ socket, nickname, allRooms, joinedRoom, leftRoom, chatMessage }}
+      value={{ socket, nickname, allRooms, joinedRoom, leftRoom, chatMessages }}
     >
       {children}
     </SocketContext.Provider>

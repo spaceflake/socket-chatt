@@ -7,15 +7,9 @@ import RoomList from './components/RoomList';
 import ActiveList from './components/ActiveList';
 import StatusBox from './components/StatusBox';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
-import { SocketContext } from './context/socketContext';
 
 function App() {
   const [isOnline, setIsOnline] = useState(false);
-  const socket = useContext(SocketContext);
-
-  // useEffect(() => {
-  //   socket;
-  // }, []);
 
   return (
     <Container bg="gray.100" maxW="100%" h="100vh" padding="0" margin="0">

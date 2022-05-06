@@ -6,11 +6,9 @@ import { ChakraProvider } from '@chakra-ui/react';
 import SocketProvider from './context/socketContext';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <SocketProvider>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </SocketProvider>
-  </React.StrictMode>
+  <SocketProvider>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
+  </SocketProvider>
 );

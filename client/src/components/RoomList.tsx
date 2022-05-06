@@ -63,10 +63,10 @@ function RoomList() {
           p="2"
           mb="1"
           onClick={() => {
-            socket.emit('leave', joinedRoom)
-            console.log(nickname + ' has left' + joinedRoom)
+            socket.emit('leave', joinedRoom);
+            console.log(nickname + ' has left' + joinedRoom);
             socket.emit('join', room);
-            console.log(allRooms)
+            console.log('All rooms:' + allRooms);
           }}
         >
           Roomname: {room}
