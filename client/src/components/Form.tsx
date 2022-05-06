@@ -26,7 +26,7 @@ function Form({
   creatingRoom,
 }: formProps) {
   const { register, handleSubmit, watch } = useForm<Inputs>();
-  const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
+  const { socket, nickname, allRooms, joinedRoom, chatMessage } = useContext(SocketContext);
 
   // console.log(watch('input'))
 
@@ -54,7 +54,7 @@ function Form({
         return;
       }
 
-      socket.emit('message', data.input, joinedRoom);
+      socket.emit('message', data.input, joinedRoom)
       console.log('3', data);
     }
 

@@ -18,6 +18,7 @@ export default (io: Server, socket: Socket) => {
   socket.on('leave', (room) => {
     socket.leave(room);
     io.to(room).emit(`user has left the room`);
+    // remove room if room is empty   room.sockets.length bleh something?
     io.emit('roomList', getRooms(io))
   })
 

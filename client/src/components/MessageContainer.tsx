@@ -22,7 +22,7 @@ import communication from "../assets/com.png";
 function MessageContainer() {
   const [Messages, setMessages] = useState<string[]>([]);
   const [writingMessage, setWritingMessage] = useState(true);
-  const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
+  const { socket, nickname, allRooms, joinedRoom, chatMessage } = useContext(SocketContext);
   const [creatingRoom, setCreatingRoom] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -84,8 +84,11 @@ function MessageContainer() {
           <Box>
             <ul id="messages">
               <Heading textAlign="center">All messages in {joinedRoom}</Heading>
-              {Messages.map((message, index) => (
-                <li key={index}>{message}</li>
+
+               {/* implement this in loop  (nickname should not just be nickname in future, to separate WHO wrote this?) */}
+              <li key={chatMessage}>{nickname} wrote: {chatMessage}</li>
+              {Messages.map((chatMessage, index) => (
+                <li key={index}>{nickname}{chatMessage}</li>
               ))}
             </ul>
           </Box>

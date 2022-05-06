@@ -65,7 +65,9 @@ export const SocketProvider = ({ children }: Props) => {
     });
 
     socket.on('message',(chatMessage) =>{
-      // do stuff...
+      console.log(nickname +' wrote : ' + chatMessage)
+
+      setChatMessage(chatMessage)
     })
 
     // return () => {
@@ -78,7 +80,7 @@ export const SocketProvider = ({ children }: Props) => {
 
   return (
     <SocketContext.Provider
-      value={{ socket, nickname, allRooms, joinedRoom, leftRoom }}
+      value={{ socket, nickname, allRooms, joinedRoom, leftRoom, chatMessage }}
     >
       {children}
     </SocketContext.Provider>
