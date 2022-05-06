@@ -40,22 +40,22 @@ export const SocketProvider = ({ children }: Props) => {
     console.log(socket);
 
     socket.on('connected', (nickname) => {
-      console.log(nickname);
+      console.log('Nickname: ' + nickname);
       setNickname(nickname);
     });
 
     socket.on('roomList', (rooms) => {
-      console.log(rooms);
+      console.log('the list of all rooms: ' + rooms);
       setAllRooms(allRooms.concat(rooms));
     });
 
     socket.on('joined', (room) => {
-      console.log(room);
+      console.log('user has joined room: ' +room);
       setJoinedRoom(room);
     });
 
     socket.on('left',(room) =>{
-      console.log(room)
+      console.log('user has left room: ' + room)
       setleftRoom(room)
     })
 
