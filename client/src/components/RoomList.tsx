@@ -58,7 +58,9 @@ function RoomList() {
           as="button"
           key={room}
           value={room}
-          bg="blue"
+          bg="#739099"
+          borderRadius="sm"
+          p="2"
           mb="1"
           onClick={() => {
             socket.emit('leave', joinedRoom)
