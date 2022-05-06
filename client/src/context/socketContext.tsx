@@ -8,6 +8,7 @@ interface IContext {
   nickname: string;
   allRooms: string[];
   joinedRoom: string;
+  leftRoom: string;
 }
 
 interface Props {
@@ -19,6 +20,7 @@ const defaultState = {
   nickname: '',
   allRooms: [],
   joinedRoom: '',
+  leftRoom:'',
 };
 
 export const SocketContext = createContext<IContext>(defaultState);
@@ -28,6 +30,7 @@ export const SocketProvider = ({ children }: Props) => {
   const [nickname, setNickname] = useState(defaultState.nickname);
   const [allRooms, setAllRooms] = useState(defaultState.allRooms);
   const [joinedRoom, setJoinedRoom] = useState(defaultState.joinedRoom);
+  const [leftRoom, setleftRoom] = useState(defaultState.leftRoom);
 
   useEffect(() => {
     setSocket(socket);
@@ -51,6 +54,11 @@ export const SocketProvider = ({ children }: Props) => {
       setJoinedRoom(room);
     });
 
+    socket.on('left',(room) =>{
+      console.log(room)
+      setleftRoom(room)
+    })
+
     // return () => {
     //   // Anything in here is fired on component unmount.
     //   if (socket) {
@@ -60,7 +68,7 @@ export const SocketProvider = ({ children }: Props) => {
   }, [socket]);
 
   return (
-    <SocketContext.Provider value={{ socket, nickname, allRooms, joinedRoom }}>
+    <SocketContext.Provider value={{ socket, nickname, allRooms, joinedRoom, leftRoom }}>
       {children}
     </SocketContext.Provider>
   );
