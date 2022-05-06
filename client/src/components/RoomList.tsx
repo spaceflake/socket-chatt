@@ -19,7 +19,7 @@ function RoomList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [creatingRoom, setCreatingRoom] = useState(false);
   // const [room, setRoom] = useState('');
-  const { socket, allRooms, joinedRoom } = useContext(SocketContext);
+  const { socket, allRooms, joinedRoom, nickname } = useContext(SocketContext);
 
   useEffect(() => {
     if (!creatingRoom) {
@@ -64,7 +64,7 @@ function RoomList() {
           mb="1"
           onClick={() => {
             socket.emit('leave', joinedRoom)
-            console.log('user has left' + joinedRoom)
+            console.log(nickname + ' has left' + joinedRoom)
             socket.emit('join', room);
             console.log(allRooms)
           }}
