@@ -90,6 +90,9 @@ function MessageContainer() {
             </ul>
           </Box>
           <Box position="absolute" bottom={0} w="100%">
+            <Text>
+              {nickname} has connected to {joinedRoom}
+            </Text>
             <Form {...{ setWritingMessage }} />
           </Box>
         </>
