@@ -3,7 +3,7 @@ export interface ServerToClientEvents {
   connected: (nickname: string) => void;
   roomList: (rooms: string[]) => void;
   joined: (room: string) => void;
-  leaved: (room: string) => void
+  left: (room: string) => void
   _error: (errorMessage: string) => void;
 }
 
