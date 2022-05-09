@@ -3,10 +3,11 @@ import { io, Socket } from 'socket.io-client';
 
 import { ClientToServerEvents, ServerToClientEvents } from '../../../types';
 
-export interface Chats {
+export type Chats = {
+  id: string;
   sender: string;
   msg: string;
-}
+};
 
 interface IContext {
   socket: Socket<ServerToClientEvents, ClientToServerEvents>;
@@ -15,6 +16,7 @@ interface IContext {
   joinedRoom: string;
   leftRoom: string;
   chatMessages: Chats[];
+  users: string[];
 }
 
 interface Props {
@@ -22,23 +24,20 @@ interface Props {
 }
 
 const defaultState = {
-  socket: io(),
+  socket: io({ autoConnect: false }),
   nickname: '',
   allRooms: [],
   joinedRoom: '',
   leftRoom: '',
-  chatMessages: [
-    {
-      sender: '',
-      msg: '',
-    },
-  ],
+  chatMessages: [] as Chats[],
+  users: [],
 };
 
 export const SocketContext = createContext<IContext>(defaultState);
 
 export const SocketProvider = ({ children }: Props) => {
   const [socket, setSocket] = useState(defaultState.socket);
+  const [users, setUsers] = useState<string[]>([]);
   const [nickname, setNickname] = useState(defaultState.nickname);
   const [allRooms, setAllRooms] = useState(defaultState.allRooms);
   const [joinedRoom, setJoinedRoom] = useState(defaultState.joinedRoom);
@@ -57,6 +56,8 @@ export const SocketProvider = ({ children }: Props) => {
     socket.on('connected', (nickname) => {
       console.log('Nickname: ' + nickname);
       setNickname(nickname);
+      setUsers([...users, nickname]);
+      console.log(users);
     });
 
     socket.on('roomList', (rooms) => {
@@ -74,14 +75,18 @@ export const SocketProvider = ({ children }: Props) => {
       setleftRoom(room);
     });
 
-    socket.on('message', (chatMessage: string, from) => {
-      console.log(
-        'ehheheheheehheheh' + from.nickname + ' wrote : ' + chatMessage
-      );
-      chatMessages.push({ sender: from.nickname, msg: chatMessage });
-      setchatMessages(chatMessages);
-      console.log(chatMessages);
-    });
+    // socket.on('message', (chatMessage: string, from) => {
+    //   console.log(
+    //     'ehheheheheehheheh' + from.nickname + ' wrote : ' + chatMessage
+    //   );
+    //   chatMessages.push({
+    //     id: from.id,
+    //     sender: from.nickname,
+    //     msg: chatMessage,
+    //   });
+    //   setchatMessages(chatMessages);
+    //   console.log(chatMessages);
+    // });
     // socket.on('message', (chatMessage: string) => {
     //   console.log(nickname + ' wrote : ' + chatMessage);
     //   const newMessageList = [chatMessage, ...Messages];
@@ -98,7 +103,15 @@ export const SocketProvider = ({ children }: Props) => {
 
   return (
     <SocketContext.Provider
-      value={{ socket, nickname, allRooms, joinedRoom, leftRoom, chatMessages }}
+      value={{
+        socket,
+        nickname,
+        allRooms,
+        joinedRoom,
+        leftRoom,
+        chatMessages,
+        users,
+      }}
     >
       {children}
     </SocketContext.Provider>

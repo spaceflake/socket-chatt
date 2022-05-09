@@ -25,7 +25,7 @@ function App() {
             <Flex
               direction="column"
               gap="2rem"
-              w="15vw"
+              w="fit-content"
               h="100%"
               bg="black"
               color="white"
@@ -40,7 +40,7 @@ function App() {
                 <RoomList />
                 <Divider borderWidth={3} mt={5} mb={5} />
               </Box>
-              <Box bg="gray" position="absolute" bottom="0" w="100%">
+              <Box bg="gray" position="absolute" bottom="0" w="100%" p="2">
                 <StatusBox />
               </Box>
             </Flex>

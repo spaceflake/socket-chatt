@@ -48,7 +48,7 @@ function RoomList() {
           <ModalHeader>Name your room</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Form {...{ setCreatingRoom, creatingRoom, socket }} />
+            <Form {...{ setCreatingRoom, creatingRoom }} />
           </ModalBody>
         </ModalContent>
       </Modal>

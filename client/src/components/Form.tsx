@@ -7,13 +7,17 @@ import {
 } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import SendIcon from '@mui/icons-material/Send';
 import { SocketContext } from '../context/socketContext';
 
 interface formProps {
   setIsOnline?: Dispatch<SetStateAction<boolean>>;
   setCreatingRoom?: Dispatch<SetStateAction<boolean>>;
   setWritingMessage?: Dispatch<SetStateAction<boolean>>;
+  writingMessage?: boolean;
   creatingRoom?: boolean;
+  message?: string;
+  setMessage?: Dispatch<SetStateAction<string>>;
 }
 type Inputs = {
   input: string;
@@ -23,12 +27,19 @@ function Form({
   setIsOnline,
   setCreatingRoom,
   setWritingMessage,
+  writingMessage,
   creatingRoom,
+  message,
+  setMessage,
 }: formProps) {
   const { register, handleSubmit, watch, reset } = useForm<Inputs>();
   const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
 
-  // console.log(watch('input'))
+  if (setWritingMessage) {
+    if (watch('input')) {
+      setWritingMessage(true);
+    }
+  }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (socket && !creatingRoom) {
@@ -47,14 +58,18 @@ function Form({
       setCreatingRoom(false);
     }
 
-    if (setWritingMessage) {
-      let message = data.input;
+    if (writingMessage && setWritingMessage && message && setMessage) {
+      setMessage(data.input);
+
+      // let message = data.input;
       if (!message.length) {
         console.log('För kort meddelande');
         return;
       }
 
       socket.emit('message', message, joinedRoom);
+      setWritingMessage(false);
+      setMessage('');
 
       reset();
       console.log('3', data);
@@ -79,8 +94,12 @@ function Form({
           {...register('input')}
         />
       </FormControl>
-      <Button type="submit" w="full" variant="solid">
-        {!creatingRoom ? 'Send' : 'Create Room'}
+      <Button type="submit" w="full" variant="solid" disabled={!watch('input')}>
+        {creatingRoom
+          ? 'Create Room'
+          : setIsOnline
+          ? 'Enter'
+          : setWritingMessage && <SendIcon />}
       </Button>
     </form>
   );
