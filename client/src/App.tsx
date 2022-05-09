@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import './App.css';
 import MessageContainer from './components/MessageContainer';
+import MessageIcon from '@mui/icons-material/Message';
 import Form from './components/Form';
 import RoomList from './components/RoomList';
 import ActiveList from './components/ActiveList';
@@ -60,8 +61,9 @@ function App() {
             boxShadow="10px 10px 10px 3px rgba(0,0,0, 0.1)"
           >
             {/* conditional for active users in room */}
-            <Flex direction="column" gap="2rem" h="100%" position="relative">
-              <Box mt={10} p={5} className="leftSideBar">
+            <Flex direction="column" maxW="20vw"
+            gap="2rem" maxH="100%" position="relative">
+              <Box mt={5} p={2}  className="leftSideBar">
                 <Tabs size="md" borderColor="white">
                   <TabList>
                     <Tab>Rooms</Tab>
@@ -69,11 +71,27 @@ function App() {
                   </TabList>
                   <TabPanels>
                     <TabPanel>
-                      <Heading>All rooms</Heading>
                       <RoomList />
                     </TabPanel>
                     <TabPanel>
-                      <Heading>DM's</Heading>
+                      <Text>
+                        All direct messages:
+                      </Text>
+                      <Divider mt={5} mb={5} />
+                      <Box className="scrollBox">
+                      {/* Do the loop of all users in a (private) room */}
+                      <ul>
+                        <li><Text font-size="1rem">Morran <MessageIcon /></Text></li>
+                        <Divider />
+                        <li><Text font-size="1rem">Emma <MessageIcon /></Text></li>
+                        <Divider />
+                        <li><Text font-size="1rem">Julia <MessageIcon /></Text></li>
+                        <Divider />
+                        <li><Text font-size="1rem">Malin <MessageIcon /></Text></li>
+                        <Divider />
+                      </ul>
+                      </Box>
+
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
@@ -82,7 +100,7 @@ function App() {
                 position="absolute"
                 bottom="0"
                 w="100%"
-                padding="2rem"
+                padding={2}
                 borderTop="3px"
                 borderColor="white"
                 borderTopStyle="solid"
@@ -94,11 +112,9 @@ function App() {
             <Box mb="1rem" w="100%" h="100%">
               <MessageContainer />
             </Box>
-            <Flex direction="column" gap="2rem" h="100%" color="white">
+            <Flex direction="column" gap="2rem" h="100%" color="white" w="20vw">
               {/* should have scroll if too many items (in this specific box) */}
               <Box mt={5} p={5} className="rightSideBar">
-                <Heading>All online</Heading>
-                <Divider borderWidth={3} mt={5} mb={5} />
                 <ActiveList />
               </Box>
             </Flex>
