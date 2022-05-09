@@ -108,13 +108,13 @@ function Form({
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      <Button type="submit" w="full" variant="solid" disabled={!watch('input')}>
+      {/* <Button type="submit" w="full" variant="solid" disabled={!watch('input')}>
         {creatingRoom
           ? 'Create Room'
           : setIsOnline
           ? 'Enter'
           : setWritingMessage && <SendIcon />}
-      </Button>
+      </Button> */}
     </form>
   );
 }
