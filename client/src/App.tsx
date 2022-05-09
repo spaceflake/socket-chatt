@@ -6,56 +6,95 @@ import Form from './components/Form';
 import RoomList from './components/RoomList';
 import ActiveList from './components/ActiveList';
 import StatusBox from './components/StatusBox';
-import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Container,
+  Divider,
+  Flex,
+  Heading,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from '@chakra-ui/react';
 
 function App() {
   const [isOnline, setIsOnline] = useState(false);
 
   return (
-    <Container bg="gray.100" maxW="100%" h="100vh" padding="0" margin="0">
+    <Container
+      bg="linear-gradient(77deg, rgba(240,204,233,1) 0%, rgba(114,19,255,1) 100%)"
+      maxW="100%"
+      h="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      padding="3rem"
+      margin="0"
+    >
       {!isOnline ? (
-        <Flex h="100%" justify="center" align="center" direction="column">
-          <Heading>Welcome</Heading>
+        <Flex
+          h="80%"
+          bg="rgba(255,255,255, 0.5)"
+          w="50%"
+          justify="center"
+          align="center"
+          direction="column"
+          borderRadius="1rem"
+          boxShadow="10px 10px 10px 3px rgba(0,0,0, 0.1)"
+        >
+          <Heading mb="1rem">Welcome</Heading>
           <Form {...{ setIsOnline }} />
         </Flex>
       ) : (
         <>
-          <Flex h="100%">
+          {/* the big main container */}
+          <Flex
+            h="100%"
+            w="100%"
+            borderRadius="1rem"
+            bg="rgb(195, 195, 195, 50%)"
+            boxShadow="10px 10px 10px 3px rgba(0,0,0, 0.1)"
+          >
             {/* conditional for active users in room */}
-            <Flex
-              direction="column"
-              gap="2rem"
-              w="15vw"
-              h="100%"
-              bg="black"
-              color="white"
-              position="relative"
-            >
+            <Flex direction="column" gap="2rem" h="100%" position="relative">
               <Box mt={10} p={5} className="leftSideBar">
-                {/* should have scroll if too many items (in this specific box) */}
-                <Heading>DM's</Heading>
-                <Divider borderWidth={3} mt={5} mb={5} />
-                {/* should have scroll if too many items (in this specific box) */}
-                <Heading>All rooms</Heading>
-                <RoomList />
-                <Divider borderWidth={3} mt={5} mb={5} />
+                <Tabs size="md" borderColor="white">
+                  <TabList>
+                    <Tab>Rooms</Tab>
+                    <Tab>Direct Messages</Tab>
+                  </TabList>
+                  <TabPanels>
+                    <TabPanel>
+                      <Heading>All rooms</Heading>
+                      <RoomList />
+                    </TabPanel>
+                    <TabPanel>
+                      <Heading>DM's</Heading>
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
               </Box>
-              <Box bg="gray" position="absolute" bottom="0" w="100%">
+              <Box
+                position="absolute"
+                bottom="0"
+                w="100%"
+                padding="2rem"
+                borderTop="3px"
+                borderColor="white"
+                borderTopStyle="solid"
+              >
                 <StatusBox />
               </Box>
             </Flex>
             {/* should have scroll if too many items (in this specific box) */}
-            <Box w="100%" h="100%">
+            <Box mb="1rem" w="100%" h="100%">
               <MessageContainer />
             </Box>
-            <Flex
-              direction="column"
-              gap="2rem"
-              w="15vw"
-              h="100%"
-              bg="black"
-              color="white"
-            >
+            <Flex direction="column" gap="2rem" h="100%" color="white">
               {/* should have scroll if too many items (in this specific box) */}
               <Box mt={5} p={5} className="rightSideBar">
                 <Heading>All online</Heading>

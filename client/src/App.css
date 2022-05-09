@@ -3,3 +3,18 @@ body,
 #root {
   height: 100%;
 }
+
+*:focus {
+  box-shadow: none !important;
+  outline: 0, none !important;
+  outline-color: none;
+  border-width: 0px;
+  color: 'white' !important;
+  background: 'black' !important;
+  font-weight: bold;
+  border-color: white !important;
+}
+
+*:active {
+  color: 'white' !important;
+}

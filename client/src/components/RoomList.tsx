@@ -44,7 +44,11 @@ function RoomList() {
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          bg="rgb(255, 255, 255, 70%)"
+          height="50vh"
+          backdrop-filter="blur(50%)"
+        >
           <ModalHeader>Name your room</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
