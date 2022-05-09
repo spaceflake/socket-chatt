@@ -6,7 +6,14 @@ import {
   useState,
 } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from '@chakra-ui/react';
 import { SocketContext } from '../context/socketContext';
 
 interface formProps {
@@ -25,7 +32,7 @@ function Form({
   setWritingMessage,
   creatingRoom,
 }: formProps) {
-  const { register, handleSubmit, watch } = useForm<Inputs>();
+  const { register, handleSubmit, watch, reset } = useForm<Inputs>();
   const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
 
   // console.log(watch('input'))
@@ -48,13 +55,15 @@ function Form({
     }
 
     if (setWritingMessage) {
-      const message = data.input;
+      let message = data.input;
       if (!message.length) {
         console.log('För kort meddelande');
         return;
       }
 
-      socket.emit('message', data.input, joinedRoom);
+      socket.emit('message', message, joinedRoom);
+
+      reset();
       console.log('3', data);
     }
 
@@ -70,16 +79,20 @@ function Form({
             ? 'Enter roomname'
             : setWritingMessage && ''}
         </FormLabel>
-        <Input
-          type="text"
-          id="input"
-          autoComplete="off"
-          {...register('input')}
-        />
+        <InputGroup>
+          <Input
+            type="text"
+            id="input"
+            autoComplete="off"
+            {...register('input')}
+          />
+          <InputRightElement w="fit-content" bg="rgba(255, 255, 255, 0.3)">
+            <Button type="submit" variant="ghost">
+              {!creatingRoom ? 'Send' : 'Create Room'}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
       </FormControl>
-      <Button type="submit" w="full" variant="solid">
-        {!creatingRoom ? 'Send' : 'Create Room'}
-      </Button>
     </form>
   );
 }
