@@ -1,5 +1,7 @@
 import Form from './Form';
 import { useContext, useEffect, useState } from 'react';
+import { Message } from '../../../types';
+
 import {
   Box,
   Button,
@@ -16,11 +18,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { Chats, SocketContext } from '../context/socketContext';
+import { SocketContext } from '../context/socketContext';
 import communication from '../assets/com.png';
 
 function MessageContainer() {
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
   const [writingMessage, setWritingMessage] = useState(false);
   const { socket, nickname, allRooms, joinedRoom, chatMessages } =
@@ -100,9 +102,9 @@ function MessageContainer() {
                     borderRadius="md"
                   >
                     <Text bg="blackAlpha.500" color="gray.100">
-                      From: {nickname}{' '}
+                      From: {chatMessage.sender}
                     </Text>
-                    <Text>{chatMessage}</Text>
+                    <Text>{chatMessage.body}</Text>
                   </Box>
                 ))}
               </ul>

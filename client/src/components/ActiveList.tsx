@@ -1,7 +1,7 @@
 import { Box, Divider, Text } from "@chakra-ui/react"
 import MessageIcon from '@mui/icons-material/Message';
 import { useContext } from "react";
-import { Chats, SocketContext } from '../context/socketContext';
+import { SocketContext } from '../context/socketContext';
 
 function ActiveList() {
   const { socket, nickname, allRooms, joinedRoom } =

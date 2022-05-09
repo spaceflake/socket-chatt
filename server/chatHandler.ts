@@ -1,7 +1,8 @@
-import { Server, Socket } from 'socket.io';
+import type { IOServer, IOSocket } from './server';
 import { getRooms } from './roomStore';
+import { ServerSocketData } from '../types';
 
-export default (io: Server, socket: Socket) => {
+export default (io: IOServer, socket: IOSocket) => {
   socket.on('join', (room) => {
     // Bestämmer om alla rum skall emitas till samtliga sockets
     const shouldBroadcastRooms: boolean = !getRooms(io).includes(room);
@@ -17,10 +18,26 @@ export default (io: Server, socket: Socket) => {
 
   socket.on('leave', (room) => {
     socket.leave(room);
-    io.to(room).emit(`user has left the room`);
+    io.to(room).emit('left', `user has left the room`);
     // remove room if room is empty   room.sockets.length bleh something?
     io.emit('roomList', getRooms(io));
   });
+
+  // list all users in ROOM
+//   io.of("/").adapter
+// interface ChatRoom{
+//   name; string;
+//   sockets: ServerSocketData[];
+// }
+//   function getRooms(io: IoServer):ChatRoom[]{
+//     for (const [id, socketIds]) of io.sockets.adapter.rooms){
+//       const sockets = Array.from(socketIds.map(id) => io.sockets.sockets.get(id)
+//       rooms.push({
+//         name: id;
+//         sockets: sockets.filter((s) => s?.data) as ServerSocketData
+//       }))
+//     }
+//   }
 
   socket.on('message', (message, to) => {
     console.log(message, to);
@@ -29,9 +46,9 @@ export default (io: Server, socket: Socket) => {
       return socket.emit('_error', 'Missing nickname on socket..');
     }
 
-    io.to(to).emit('message', message, {
-      id: socket.id,
-      nickname: socket.data.nickname,
+    io.to(to).emit('message', {
+      body: message,
+      sender: socket.data.nickname,
     });
   });
 };
