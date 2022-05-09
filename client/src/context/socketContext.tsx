@@ -1,13 +1,7 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-import { ClientToServerEvents, ServerToClientEvents } from '../../../types';
-
-export type Chats = {
-  id: string;
-  sender: string;
-  msg: string;
-};
+import { ClientToServerEvents, ServerToClientEvents, Message } from '../../../types';
 
 interface IContext {
   socket: Socket<ServerToClientEvents, ClientToServerEvents>;
@@ -15,7 +9,7 @@ interface IContext {
   allRooms: string[];
   joinedRoom: string;
   leftRoom: string;
-  chatMessages: Chats[];
+  chatMessages: Message[];
   users: string[];
 }
 
@@ -29,30 +23,22 @@ const defaultState = {
   allRooms: [],
   joinedRoom: '',
   leftRoom: '',
-  chatMessages: [] as Chats[],
+  chatMessages: [],
   users: [],
 };
 
 export const SocketContext = createContext<IContext>(defaultState);
 
 export const SocketProvider = ({ children }: Props) => {
-  const [socket, setSocket] = useState(defaultState.socket);
+  const [socket] = useState(defaultState.socket);
   const [users, setUsers] = useState<string[]>([]);
   const [nickname, setNickname] = useState(defaultState.nickname);
   const [allRooms, setAllRooms] = useState(defaultState.allRooms);
   const [joinedRoom, setJoinedRoom] = useState(defaultState.joinedRoom);
   const [leftRoom, setleftRoom] = useState(defaultState.leftRoom);
-  const [chatMessages, setchatMessages] = useState(defaultState.chatMessages);
+  const [chatMessages, setchatMessages] = useState<Message[]>(defaultState.chatMessages);
 
   useEffect(() => {
-    setSocket(socket);
-
-    setNickname(nickname);
-
-    console.log(socket);
-
-    // dags för mess
-
     socket.on('connected', (nickname) => {
       console.log('Nickname: ' + nickname);
       setNickname(nickname);

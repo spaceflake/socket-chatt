@@ -1,5 +1,10 @@
+export type Message = {
+  sender: string;
+  body: string;
+};
+
 export interface ServerToClientEvents {
-  message: (message: string, from: { id: string; nickname: string }) => void;
+  message: (message: Message) => void;
   connected: (nickname: string) => void;
   roomList: (rooms: string[]) => void;
   joined: (room: string) => void;
