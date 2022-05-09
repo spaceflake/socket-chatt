@@ -36,7 +36,7 @@ function ActiveList() {
       }
 
     </>
-  )
+  );
 }
 
-export default ActiveList
+export default ActiveList;

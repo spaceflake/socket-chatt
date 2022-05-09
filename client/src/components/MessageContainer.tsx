@@ -20,8 +20,9 @@ import { Chats, SocketContext } from '../context/socketContext';
 import communication from '../assets/com.png';
 
 function MessageContainer() {
-  const [Messages, setMessages] = useState<Chats[]>([]);
-  const [writingMessage, setWritingMessage] = useState(true);
+  const [messages, setMessages] = useState<string[]>([]);
+  const [message, setMessage] = useState('');
+  const [writingMessage, setWritingMessage] = useState(false);
   const { socket, nickname, allRooms, joinedRoom, chatMessages } =
     useContext(SocketContext);
   const [creatingRoom, setCreatingRoom] = useState(false);
@@ -34,22 +35,15 @@ function MessageContainer() {
   }, [creatingRoom]);
 
   useEffect(() => {
-    // socket.on('chat message', (message) => {
-    //   setMessages([...Messages, message])
-    // })
-    socket.on('connect', () => {
-      console.log('connected');
+    socket.on('message', (message) => {
+      setMessages((messages) => [...messages, message]);
     });
-    // socket.on('message', (chatMessage: string) => {
-    //   console.log(nickname + ' wrote : ' + chatMessage);
-    //   const newMessageList = [chatMessage, ...Messages];
-    //   setMessages(newMessageList);
-    // });
-    // socket.on('roomList', (rooms) => {
-    //   console.log(rooms);
-    // });
-    setMessages(chatMessages);
-  }, []);
+  }, [socket]);
+
+  const handleSendMessage = () => {
+    socket.emit('message', message, joinedRoom);
+    setMessage('');
+  };
 
   return (
     <Box h="100%" className="scrollBox" position="relative" bg="rgba(255,255,255, 0.5)">
@@ -96,11 +90,20 @@ function MessageContainer() {
                 {/* <li key={chatMessage}>
                 {nickname} wrote: {chatMessage}
               </li> */}
-                {Messages.map((chatMessage, index) => (
-                  <li key={index}>
-                    <p>From: {chatMessage.sender} </p>
-                    <p>{chatMessage.msg}</p>
-                  </li>
+                {messages.map((chatMessage, index) => (
+                  <Box
+                    key={index}
+                    bg="#739099"
+                    mt="1"
+                    p="1.5"
+                    w="fit-content"
+                    borderRadius="md"
+                  >
+                    <Text bg="blackAlpha.500" color="gray.100">
+                      From: {nickname}{' '}
+                    </Text>
+                    <Text>{chatMessage}</Text>
+                  </Box>
                 ))}
               </ul>
             )}
@@ -109,7 +112,17 @@ function MessageContainer() {
             <Text>
               {nickname} has connected to {joinedRoom}
             </Text>
-            <Form {...{ setWritingMessage }} />
+            <Text>{writingMessage && 'is writing'}</Text>
+            <input
+              type="text"
+              placeholder="Enter Message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <Button onClick={handleSendMessage}>Send</Button>
+            {/* <Form
+              {...{ setWritingMessage, writingMessage, message, setMessage }}
+            /> */}
           </Box>
         </>
       )}
