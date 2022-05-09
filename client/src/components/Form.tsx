@@ -99,10 +99,13 @@ function Form({
             type="text"
             id="input"
             autoComplete="off"
-            {...register('input')}
+            {...register('input', {
+              //todo
+              min: 3,
+            })}
           />
           <InputRightElement w="fit-content" bg="rgba(255, 255, 255, 0.3)">
-            <Button type="submit" variant="ghost">
+            <Button type="submit" variant="ghost" disabled={!watch('input')}>
               {!creatingRoom ? 'Send' : 'Create Room'}
             </Button>
           </InputRightElement>
