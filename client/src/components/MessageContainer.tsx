@@ -46,7 +46,7 @@ function MessageContainer() {
   };
 
   return (
-    <Box height="100%" position="relative" bg="lightblue">
+    <Box h="100%" className="scrollBox" position="relative" bg="rgba(255,255,255, 0.5)">
       {!joinedRoom ? (
         <Flex
           direction="column"

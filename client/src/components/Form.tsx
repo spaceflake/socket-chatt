@@ -6,8 +6,15 @@ import {
   useState,
 } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import SendIcon from '@mui/icons-material/Send';
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from '@chakra-ui/react';
 import { SocketContext } from '../context/socketContext';
 
 interface formProps {
@@ -87,12 +94,19 @@ function Form({
             ? 'Enter roomname'
             : setWritingMessage && ''}
         </FormLabel>
-        <Input
-          type="text"
-          id="input"
-          autoComplete="off"
-          {...register('input')}
-        />
+        <InputGroup>
+          <Input
+            type="text"
+            id="input"
+            autoComplete="off"
+            {...register('input')}
+          />
+          <InputRightElement w="fit-content" bg="rgba(255, 255, 255, 0.3)">
+            <Button type="submit" variant="ghost">
+              {!creatingRoom ? 'Send' : 'Create Room'}
+            </Button>
+          </InputRightElement>
+        </InputGroup>
       </FormControl>
       <Button type="submit" w="full" variant="solid" disabled={!watch('input')}>
         {creatingRoom

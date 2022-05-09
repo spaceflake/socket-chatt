@@ -1,16 +1,40 @@
-import { useContext } from 'react';
-import { SocketContext } from '../context/socketContext';
+import { Box, Divider, Text } from "@chakra-ui/react"
+import MessageIcon from '@mui/icons-material/Message';
+import { useContext } from "react";
+import { Chats, SocketContext } from '../context/socketContext';
 
 function ActiveList() {
-  const { users } = useContext(SocketContext);
-
-  console.log(users);
+  const { socket, nickname, allRooms, joinedRoom } =
+    useContext(SocketContext);
   return (
     <>
-      <h1>Active user list</h1>
-      {users?.map((user, i) => (
-        <p key={i}>{user}</p>
-      ))}
+      {!joinedRoom ? (
+        <></>
+      )
+        :
+        (
+          <>
+            <Text>
+              All online in this room:
+            </Text>
+            <Divider mt={5} mb={5} />
+            <Box className="scrollBox" h="100%">
+              {/* Do the loop of all users in a room */}
+              <ul>
+                <li><Text font-size="1rem">Morran <MessageIcon /></Text></li>
+                <Divider />
+                <li><Text font-size="1rem">Emma <MessageIcon /></Text></li>
+                <Divider />
+                <li><Text font-size="1rem">Julia <MessageIcon /></Text></li>
+                <Divider />
+                <li><Text font-size="1rem">Malin <MessageIcon /></Text></li>
+                <Divider />
+              </ul>
+            </Box>
+          </>
+        )
+      }
+
     </>
   );
 }
