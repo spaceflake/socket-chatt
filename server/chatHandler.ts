@@ -1,6 +1,7 @@
 import type { IOServer, IOSocket } from './server';
 import { getRooms, getUsers, getUsersInRoom } from './roomStore';
-import { ServerSocketData } from '../types';
+import { ServerSocketData, Message } from '../types';
+import { addMessageToRoom } from './roomMessageStore';
 
 export default (io: IOServer, socket: IOSocket) => {
   socket.on('join', (room) => {
@@ -51,5 +52,6 @@ export default (io: IOServer, socket: IOSocket) => {
       body: message,
       sender: socket.data.nickname,
     });
+    addMessageToRoom(to, { sender: socket.data.nickname, body: message });
   });
 };

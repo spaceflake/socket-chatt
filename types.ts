@@ -23,6 +23,7 @@ export interface ClientToServerEvents {
   join: (room: string) => void;
   leave: (room: string) => void;
   connected: (nickname: string) => void;
+  // addToMsgStore: (room: string, message: Message) => void;
 }
 
 export interface InterServerEvents {}
