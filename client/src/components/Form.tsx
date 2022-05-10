@@ -36,9 +36,17 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
         console.log("Ogiltigt namn på rum...");
         return;
       }
+
       if(joinedRoom !== room ){
         socket.emit('leave', joinedRoom);
+        
       }
+
+      if(joinedRoom === room){
+        alert('Room already exists!')
+        return
+      }
+
       socket.emit("join", room);
 
       setCreatingRoom(false);
