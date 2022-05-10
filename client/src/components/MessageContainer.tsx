@@ -123,7 +123,7 @@ function MessageContainer() {
           <Box position="absolute" bottom={0} w="100%">
             {/* add spinner thingy */}
             <Text>
-            {nickname} is writing a message 
+            {nickname} is writing a message ...
             </Text>
             <Text>{writingMessage && 'is writing'}</Text>
             <input
