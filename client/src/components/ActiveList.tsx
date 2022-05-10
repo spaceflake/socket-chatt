@@ -1,16 +1,16 @@
-import { Box, Button, Divider, Flex, Spacer, Text } from "@chakra-ui/react";
-import MessageIcon from "@mui/icons-material/Message";
-import { useContext, useEffect, useState } from "react";
-import { SocketContext } from "../context/socketContext";
-import { User } from "../../../types";
-import Message from "@mui/icons-material/Message";
+import { Box, Button, Divider, Flex, Spacer, Text } from '@chakra-ui/react';
+import MessageIcon from '@mui/icons-material/Message';
+import { useContext, useEffect, useState } from 'react';
+import { SocketContext } from '../context/socketContext';
+import { User } from '../../../types';
+import Message from '@mui/icons-material/Message';
 
 function ActiveList() {
   const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    socket.on("userList", (users) => {
+    socket.on('userList', (users) => {
       setUsers(users);
     });
   }, [socket]);
@@ -28,7 +28,15 @@ function ActiveList() {
             <ul>
               {users.map((user) => (
                 <>
-                  <Button rightIcon={<MessageIcon />} ><li key={user.userID}>{user.nickname} </li></Button>
+                  <Button
+                    display="flex"
+                    justifyContent="space-between"
+                    w="full"
+                    rightIcon={<MessageIcon />}
+                    variant="unstyled"
+                  >
+                    <li key={user.userID}>{user.nickname} </li>
+                  </Button>
                   <Divider />
                 </>
               ))}
