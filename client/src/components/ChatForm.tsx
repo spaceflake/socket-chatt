@@ -42,7 +42,7 @@ function ChatForm({ setWritingMessage, message, setMessage }: formProps) {
 
     setMessage(data.input);
 
-    socket.emit('message', message, joinedRoom);
+    socket.emit('message', data.input, joinedRoom);
     console.log('test 2');
     setWritingMessage(false);
     setMessage('');
