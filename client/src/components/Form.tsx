@@ -29,9 +29,11 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
       socket.connect();
       socket.auth = { nickname: data.input };
     }
+
     if (creatingRoom && setCreatingRoom && socket) {
       socket.connect();
       let room = data.input;
+
       if (!room.length) {
         console.log("Ogiltigt namn på rum...");
         return;
@@ -39,21 +41,23 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
 
       if(joinedRoom !== room ){
         socket.emit('leave', joinedRoom);
-        
+        console.log('You left the room')
       }
 
       if(joinedRoom === room){
-        alert('Room already exists!')
+        console.log('room aldready exists')
         return
       }
 
       socket.emit("join", room);
+      console.log('you entered a room')
 
       setCreatingRoom(false);
     }
 
     setIsOnline && setIsOnline(true);
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormControl>
