@@ -121,8 +121,9 @@ function MessageContainer() {
             )}
           </Box>
           <Box position="absolute" bottom={0} w="100%">
+            {/* add spinner thingy */}
             <Text>
-              {nickname} has connected to {joinedRoom}
+            {nickname} is writing a message 
             </Text>
             <Text>{writingMessage && 'is writing'}</Text>
             <input
