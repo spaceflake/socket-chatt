@@ -42,13 +42,23 @@ function MessageContainer() {
     });
   }, [socket]);
 
+  useEffect(() => {
+    console.log('switched room to: ' + joinedRoom);
+    setMessages([]);
+  }, [joinedRoom]);
+
   const handleSendMessage = () => {
     socket.emit('message', message, joinedRoom);
     setMessage('');
   };
 
   return (
-    <Box h="100%" className="scrollBox" position="relative" bg="rgba(255,255,255, 0.5)">
+    <Box
+      h="100%"
+      className="scrollBox"
+      position="relative"
+      bg="rgba(255,255,255, 0.5)"
+    >
       {!joinedRoom ? (
         <Flex
           direction="column"
