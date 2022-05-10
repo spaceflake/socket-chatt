@@ -77,10 +77,16 @@ function RoomList() {
             borderRadius="sm"
             w="100%"
             onClick={() => {
+              if(joinedRoom !== room ){
               socket.emit('leave', joinedRoom);
               console.log(nickname + ' has left' + joinedRoom);
+              }
+              if(joinedRoom === room){
+                console.log('already in this room');
+                return
+              }
               socket.emit('join', room);
-              console.log('All rooms:' + allRooms);
+              console.log(nickname + ' has joined' + room);
             }}
           >
             <Text fontWeight="bold" fontSize="1.2rem">{room}</Text>
