@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useContext } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { Dispatch, SetStateAction, useContext } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 import {
   Button,
@@ -7,9 +7,9 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { SocketContext } from "../context/socketContext";
+import { SocketContext } from '../context/socketContext';
 
 interface formProps {
   setWritingMessage: Dispatch<SetStateAction<boolean>>;
@@ -22,32 +22,31 @@ type Inputs = {
 };
 
 function ChatForm({ setWritingMessage, message, setMessage }: formProps) {
-
   const { register, handleSubmit, watch, reset } = useForm<Inputs>();
   const { socket, nickname, joinedRoom } = useContext(SocketContext);
 
   if (setWritingMessage) {
-    if (watch("input")) {
+    if (watch('input')) {
       setWritingMessage(true);
-      console.log("test random");
+      console.log('test random');
     }
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log("test 1");
-    setMessage(data.input);
+    console.log('test 1');
 
-    if (!message.length) {
-      console.log("För kort meddelande");
+    if (data.input.length === 0) {
+      console.log('För kort meddelande');
       return;
     }
 
-    console.log("test 2");
-    socket.emit("message", message, joinedRoom);
-    setWritingMessage(false);
-    setMessage("");
-    reset();
+    setMessage(data.input);
 
+    socket.emit('message', message, joinedRoom);
+    console.log('test 2');
+    setWritingMessage(false);
+    setMessage('');
+    reset();
   };
 
   return (
@@ -58,17 +57,13 @@ function ChatForm({ setWritingMessage, message, setMessage }: formProps) {
             type="text"
             id="input"
             autoComplete="off"
-            {...register("input")}
+            {...register('input')}
           />
-          <InputRightElement
-            w="fit-content"
-            bg="rgba(255, 255, 255, 0.3)"
-          >
-              <Button type="submit">Send</Button>
+          <InputRightElement w="fit-content" bg="rgba(255, 255, 255, 0.3)">
+            <Button type="submit">Send</Button>
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      
     </form>
   );
 }

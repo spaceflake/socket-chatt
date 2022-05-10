@@ -20,8 +20,7 @@ import {
 
 import { SocketContext } from '../context/socketContext';
 import communication from '../assets/com.png';
-import ChatForm from './chatForm';
-
+import ChatForm from './ChatForm';
 
 function MessageContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -48,8 +47,6 @@ function MessageContainer() {
     console.log('switched room to: ' + joinedRoom);
     setMessages([]);
   }, [joinedRoom]);
-
- 
 
   return (
     <Box
@@ -118,11 +115,13 @@ function MessageContainer() {
           <Box position="absolute" bottom={0} w="100%">
             {/* add spinner thingy */}
             <Text>
-            {/* {nickname} is writing a message ... <Box isLoading spinner={<BeatLoader size={8} color='white' />}></Box> */}
+              {/* {nickname} is writing a message ... <Box isLoading spinner={<BeatLoader size={8} color='white' />}></Box> */}
             </Text>
             <Text>{writingMessage && 'is writing'}</Text>
 
-            <ChatForm {...{ setWritingMessage, writingMessage, message, setMessage }}/>
+            <ChatForm
+              {...{ setWritingMessage, writingMessage, message, setMessage }}
+            />
           </Box>
         </>
       )}
