@@ -27,7 +27,7 @@ function ActiveList() {
             {/* Do the loop of all users in a room */}
             <ul>
               {users.map((user) => (
-                <>
+                <Box key={user.userID}>
                   <Button
                     display="flex"
                     justifyContent="space-between"
@@ -35,10 +35,10 @@ function ActiveList() {
                     rightIcon={<MessageIcon />}
                     variant="unstyled"
                   >
-                    <li key={user.userID}>{user.nickname} </li>
+                    <li>{user.nickname} </li>
                   </Button>
                   <Divider />
-                </>
+                </Box>
               ))}
             </ul>
           </Box>
