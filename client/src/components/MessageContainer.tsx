@@ -20,6 +20,7 @@ import {
 
 import { SocketContext } from '../context/socketContext';
 import communication from '../assets/com.png';
+import ChatForm from './ChatForm';
 
 function MessageContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -46,11 +47,6 @@ function MessageContainer() {
     console.log('switched room to: ' + joinedRoom);
     setMessages([]);
   }, [joinedRoom]);
-
-  const handleSendMessage = () => {
-    socket.emit('message', message, joinedRoom);
-    setMessage('');
-  };
 
   return (
     <Box
@@ -98,10 +94,6 @@ function MessageContainer() {
             <Heading textAlign="center">All messages in {joinedRoom}</Heading>
             {chatMessages && (
               <ul id="messages">
-                {/* implement this in loop  (nickname should not just be nickname in future, to separate WHO wrote this?) */}
-                {/* <li key={chatMessage}>
-                {nickname} wrote: {chatMessage}
-              </li> */}
                 {messages.map((chatMessage, index) => (
                   <Box
                     key={index}
@@ -121,20 +113,15 @@ function MessageContainer() {
             )}
           </Box>
           <Box position="absolute" bottom={0} w="100%">
+            {/* add spinner thingy */}
             <Text>
-              {nickname} has connected to {joinedRoom}
+              {/* {nickname} is writing a message ... <Box isLoading spinner={<BeatLoader size={8} color='white' />}></Box> */}
             </Text>
             <Text>{writingMessage && 'is writing'}</Text>
-            <input
-              type="text"
-              placeholder="Enter Message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <Button onClick={handleSendMessage}>Send</Button>
-            {/* <Form
+
+            <ChatForm
               {...{ setWritingMessage, writingMessage, message, setMessage }}
-            /> */}
+            />
           </Box>
         </>
       )}
