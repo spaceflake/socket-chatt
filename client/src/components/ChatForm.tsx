@@ -12,10 +12,10 @@ import {
 import { SocketContext } from "../context/socketContext";
 
 interface formProps {
-  setWritingMessage?: Dispatch<SetStateAction<boolean>>;
-  writingMessage?: boolean;
-  message?: string;
-  setMessage?: Dispatch<SetStateAction<string>>;
+  setWritingMessage: Dispatch<SetStateAction<boolean>>;
+  writingMessage: boolean;
+  message: string;
+  setMessage: Dispatch<SetStateAction<string>>;
 }
 type Inputs = {
   input: string;
@@ -41,11 +41,13 @@ function ChatForm({ setWritingMessage, message, setMessage }: formProps) {
       console.log("För kort meddelande");
       return;
     }
+
     console.log("test 2");
     socket.emit("message", message, joinedRoom);
     setWritingMessage(false);
     setMessage("");
     reset();
+
   };
 
   return (
@@ -61,10 +63,12 @@ function ChatForm({ setWritingMessage, message, setMessage }: formProps) {
           <InputRightElement
             w="fit-content"
             bg="rgba(255, 255, 255, 0.3)"
-          ></InputRightElement>
+          >
+              <Button type="submit">Send</Button>
+          </InputRightElement>
         </InputGroup>
       </FormControl>
-      <Button type="submit">Send</Button>
+      
     </form>
   );
 }
