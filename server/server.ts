@@ -21,7 +21,7 @@ export type IOSocket = Socket<
   ServerToClientEvents,
   InterServerEvents,
   ServerSocketData
->
+>;
 
 io.use((socket, next) => {
   const nickname: string = socket.handshake.auth.nickname;
@@ -43,6 +43,17 @@ io.on('connection', (socket) => {
   }
 
   console.log(socket.data.nickname);
+
+  io.on('connection', (socket) => {
+    const users = [];
+    for (let [id, socket] of io.of('/').sockets) {
+      users.push({
+        userID: id,
+        nickname: socket.data.nickname,
+      });
+    }
+    socket.emit('userList', users);
+  });
 
   registerChatHandler(io, socket);
 });
