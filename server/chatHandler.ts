@@ -1,5 +1,5 @@
 import type { IOServer, IOSocket } from './server';
-import { getRooms } from './roomStore';
+import { getRooms, getUsers, getUsersInRoom } from './roomStore';
 import { ServerSocketData } from '../types';
 
 export default (io: IOServer, socket: IOSocket) => {
@@ -14,30 +14,31 @@ export default (io: IOServer, socket: IOSocket) => {
     }
 
     socket.emit('joined', room);
+    io.to(room).emit('userList', getUsersInRoom(io, room));
   });
 
   socket.on('leave', (room) => {
     socket.leave(room);
-    io.to(room).emit('left', `user has left the room`);
+    // io.to(room).emit('left', `user has left the room`);
     // remove room if room is empty   room.sockets.length bleh something?
     io.emit('roomList', getRooms(io));
   });
 
   // list all users in ROOM
-//   io.of("/").adapter
-// interface ChatRoom{
-//   name; string;
-//   sockets: ServerSocketData[];
-// }
-//   function getRooms(io: IoServer):ChatRoom[]{
-//     for (const [id, socketIds]) of io.sockets.adapter.rooms){
-//       const sockets = Array.from(socketIds.map(id) => io.sockets.sockets.get(id)
-//       rooms.push({
-//         name: id;
-//         sockets: sockets.filter((s) => s?.data) as ServerSocketData
-//       }))
-//     }
-//   }
+  //   io.of("/").adapter
+  // interface ChatRoom{
+  //   name; string;
+  //   sockets: ServerSocketData[];
+  // }
+  //   function getRooms(io: IoServer):ChatRoom[]{
+  //     for (const [id, socketIds]) of io.sockets.adapter.rooms){
+  //       const sockets = Array.from(socketIds.map(id) => io.sockets.sockets.get(id)
+  //       rooms.push({
+  //         name: id;
+  //         sockets: sockets.filter((s) => s?.data) as ServerSocketData
+  //       }))
+  //     }
+  //   }
 
   socket.on('message', (message, to) => {
     console.log(message, to);

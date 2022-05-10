@@ -5,7 +5,7 @@ import {
   InterServerEvents,
   ServerSocketData,
 } from '../types';
-import { getRooms } from './roomStore';
+import { getRooms, getUsers, getUsersInRoom } from './roomStore';
 import registerChatHandler from './chatHandler';
 
 const io = new Server<
@@ -32,6 +32,12 @@ io.use((socket, next) => {
   next();
 });
 
+io.of('/').adapter.on('leave-room', (room, id) => {
+  if (room === id) return;
+  console.log(`socket ${id} has left room ${room}`);
+  io.to(room).emit('userList', getUsersInRoom(io, room));
+});
+
 io.on('connection', (socket) => {
   console.log('a user connected');
 
@@ -44,16 +50,9 @@ io.on('connection', (socket) => {
 
   console.log(socket.data.nickname);
 
-  io.on('connection', (socket) => {
-    const users = [];
-    for (let [id, socket] of io.of('/').sockets) {
-      users.push({
-        userID: id,
-        nickname: socket.data.nickname,
-      });
-    }
-    socket.emit('userList', users);
-  });
+  // io.on('connection', (socket) => {
+  //   socket.emit('userList', getUsers(io));
+  // });
 
   registerChatHandler(io, socket);
 });
