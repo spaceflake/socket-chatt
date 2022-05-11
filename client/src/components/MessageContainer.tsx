@@ -60,8 +60,9 @@ function MessageContainer() {
   useEffect(() => {
     if (scrollBox.current !== null) {
       if (
-        scrollBox.current.scrollTop + scrollBox.current.offsetHeight ===
-        scrollHeight
+        scrollHeight -
+          (scrollBox.current.scrollTop + scrollBox.current.offsetHeight) <
+        1
       ) {
         scrollBox.current.scrollTop =
           scrollBox.current.scrollHeight - scrollBox.current.offsetHeight;
