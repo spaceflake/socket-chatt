@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
     socket.emit('roomList', getRooms(io));
   }
 
-  console.log(socket.data.nickname);
+  // console.log(socket.data.nickname);
 
   // io.on('connection', (socket) => {
   //   socket.emit('userList', getUsers(io));

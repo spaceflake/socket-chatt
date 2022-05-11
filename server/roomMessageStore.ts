@@ -2,7 +2,6 @@ import { Message } from '../types';
 
 // Map room objects with users and messages
 const map = new Map<string, Message[]>();
-// const mapAlt: { [key: string]: Message[] } = {};
 
 export function deleteRoom(room: string) {
   map.delete(room);
@@ -27,7 +26,3 @@ export function addMessageToRoom(room: string, message: Message) {
 
   console.dir(map, { depth: null });
 }
-
-// const message: Message = { sender: 'tomas', body: 'hej' };
-
-// addMessageToRoom('rum1', message);

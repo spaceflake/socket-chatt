@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import {
@@ -9,7 +9,7 @@ import {
   InputRightElement,
 } from '@chakra-ui/react';
 
-import { SocketContext } from '../context/socketContext';
+import { useSocket } from '../context/socketContext';
 
 interface formProps {
   setWritingMessage: Dispatch<SetStateAction<boolean>>;
@@ -28,7 +28,7 @@ function ChatForm({
   setMessage,
 }: formProps) {
   const { register, handleSubmit, watch, reset } = useForm<Inputs>();
-  const { socket, nickname, joinedRoom } = useContext(SocketContext);
+  const { socket, joinedRoom } = useSocket();
 
   if (setWritingMessage) {
     if (watch('input')) {
@@ -39,8 +39,6 @@ function ChatForm({
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log('test 1');
-
     if (data.input.length === 0) {
       console.log('För kort meddelande');
       return;
@@ -49,7 +47,6 @@ function ChatForm({
     setMessage(data.input);
 
     socket.emit('message', data.input, joinedRoom);
-    console.log('test 2');
     socket.emit('isWriting', false);
     setWritingMessage(false);
     setMessage('');
@@ -65,7 +62,7 @@ function ChatForm({
             border="none"
             type="text"
             id="input"
-            placeholder='Write a message...'
+            placeholder="Write a message..."
             autoComplete="off"
             {...register('input')}
           />

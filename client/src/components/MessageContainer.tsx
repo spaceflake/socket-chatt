@@ -1,5 +1,5 @@
 import Form from './Form';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Message } from '../../../types';
 
 import {
@@ -18,7 +18,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { SocketContext } from '../context/socketContext';
+import { useSocket } from '../context/socketContext';
 import communication from '../assets/com.png';
 import ChatForm from './ChatForm';
 
@@ -26,8 +26,7 @@ function MessageContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
   const [writingMessage, setWritingMessage] = useState(false);
-  const { socket, nickname, allRooms, joinedRoom, chatMessages } =
-    useContext(SocketContext);
+  const { socket, joinedRoom, chatMessages } = useSocket();
   const [creatingRoom, setCreatingRoom] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const scrollBox = useRef<HTMLDivElement | null>(null);

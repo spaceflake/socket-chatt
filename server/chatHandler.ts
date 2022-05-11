@@ -21,9 +21,9 @@ export default (io: IOServer, socket: IOSocket) => {
     socket.emit('joined', room);
     io.to(room).emit('userList', getUsersInRoom(io, room));
 
+    // Broadcast to room the status of isWriting boolean
     socket.on('isWriting', (isWriting) => {
       socket.broadcast.to(room).emit('isWriting', isWriting);
-      console.log(isWriting);
     });
 
     // Get messages from room and emit to client
@@ -40,7 +40,6 @@ export default (io: IOServer, socket: IOSocket) => {
     }
 
     // io.to(room).emit('left', `user has left the room`);
-    // remove room if room is empty   room.sockets.length bleh something?
     io.emit('roomList', getRooms(io));
   });
 

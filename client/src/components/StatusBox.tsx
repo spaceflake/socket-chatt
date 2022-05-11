@@ -1,10 +1,9 @@
 import { Button, Flex, Text } from '@chakra-ui/react';
-import { useContext } from 'react';
-import { SocketContext } from '../context/socketContext';
+import { useSocket } from '../context/socketContext';
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 
 function StatusBox() {
-  const { nickname } = useContext(SocketContext);
+  const { nickname } = useSocket();
 
   return (
     <Flex gap={5} direction="column" justify="center" align="center">

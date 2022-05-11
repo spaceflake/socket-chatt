@@ -21,7 +21,6 @@ import { SocketContext } from '../context/socketContext';
 function RoomList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [creatingRoom, setCreatingRoom] = useState(false);
-  // const [room, setRoom] = useState('');
   const { socket, allRooms, joinedRoom, nickname } = useContext(SocketContext);
 
   useEffect(() => {
@@ -29,10 +28,6 @@ function RoomList() {
       onClose();
     }
   }, [creatingRoom]);
-
-  // const handleJoin = () => {
-  //   socket.emit('join');
-  // };
 
   return (
     <Center flexDirection="column" h="full">
