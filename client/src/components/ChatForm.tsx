@@ -27,10 +27,34 @@ function ChatForm({ setWritingMessage, message, setMessage }: formProps) {
 
   if (setWritingMessage) {
     if (watch('input')) {
-      setWritingMessage(true);
+      setWritingMessage(true)
+      // socket.on('isWriting', (isWriting) =>{
+      //   setWritingMessage(isWriting);
+      //   console.log('tjoooo' + setWritingMessage)
+      // })
+      
       console.log('test random');
+      socket.emit('isWriting',true)
+      
     }
   }
+
+  // useEffect(() => {
+  //   socket.on('isWriting', (isWriting) =>{
+  //     console.log('wazzaa')
+  //     setWritingMessage(isWriting);
+  //     console.log('detta är isWrrr' + isWriting)
+  //     console.log(setWritingMessage)
+      
+  //   })},[writingMessage])
+
+  
+  //   if (watch('input')) {
+  //     setWritingMessage(true)
+  //     socket.emit('isWriting',true)
+  //     console.log('test random');  
+  //   }
+  
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log('test 1');

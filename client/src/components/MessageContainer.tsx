@@ -47,6 +47,11 @@ function MessageContainer() {
       setMessages(messages);
     });
 
+    // socket.on('isWriting', (isWriting) =>{
+    //   // setWritingMessage(isWriting);
+    //   console.log('tjoooo' + setWritingMessage)
+    // })
+    
     socket.on('message', (message) => {
       setMessages((messages) => [...messages, message]);
     });
@@ -119,9 +124,8 @@ function MessageContainer() {
           <Box position="absolute" bottom={0} w="100%">
             {/* add spinner thingy */}
             <Text>
-              {/* {nickname} is writing a message ... <Box isLoading spinner={<BeatLoader size={8} color='white' />}></Box> */}
             </Text>
-            <Text>{writingMessage && 'is writing'}</Text>
+            <Text>{ writingMessage && 'is writing'}</Text>
 
             <ChatForm
               {...{ setWritingMessage, writingMessage, message, setMessage }}

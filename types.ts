@@ -17,6 +17,7 @@ export interface ServerToClientEvents {
   left: (room: string) => void;
   _error: (errorMessage: string) => void;
   userList: (users: User[]) => void;
+  isWriting: (isWriting: boolean) => void
 }
 
 export interface ClientToServerEvents {
@@ -24,6 +25,7 @@ export interface ClientToServerEvents {
   join: (room: string) => void;
   leave: (room: string) => void;
   connected: (nickname: string) => void;
+  isWriting: (isWriting: boolean) => void
   // addToMsgStore: (room: string, message: Message) => void;
 }
 
