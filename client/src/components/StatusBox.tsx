@@ -15,7 +15,7 @@ function StatusBox() {
           <ExpandCircleDownIcon />
         </Text>
       </Flex>
-      <Button>Log out</Button>
+      {/* <Button>Log out</Button> */}
     </Flex>
   );
 }

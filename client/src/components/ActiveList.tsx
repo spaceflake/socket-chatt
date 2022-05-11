@@ -17,10 +17,8 @@ function ActiveList() {
 
   return (
     <>
-      {!joinedRoom ? (
-        <></>
-      ) : (
-        <>
+      {joinedRoom && (
+        <Box>
           <Text>All online in this room:</Text>
           <Divider mt={5} mb={5} />
           <Box className="scrollBox" h="100%">
@@ -42,7 +40,7 @@ function ActiveList() {
               ))}
             </ul>
           </Box>
-        </>
+        </Box>
       )}
     </>
   );
