@@ -23,9 +23,8 @@ import ChatForm from './ChatForm';
 
 function MessageContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [_, setMessage] = useState('');
   const [writingMessage, setWritingMessage] = useState(false);
-  const { socket, joinedRoom, chatMessages } = useSocket();
+  const { socket, nickname, joinedRoom, chatMessages } = useSocket();
   const [creatingRoom, setCreatingRoom] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const scrollBox = useRef<HTMLDivElement | null>(null);
@@ -112,36 +111,57 @@ function MessageContainer() {
           </Modal>
         </Flex>
       ) : (
-        <Flex direction="column" height="100%">
-          <Heading textAlign="center">All messages in {joinedRoom}</Heading>
-          <Box ref={scrollBox} height="100%" className="scrollBox">
-            {chatMessages && (
-              <ul id="messages">
-                {messages.map((chatMessage, index) => (
-                  <Box key={index}>
-                    <Box
-                      bg="white"
-                      mt="1"
-                      p="1rem"
-                      w="fit-content"
-                      maxW="20rem"
-                      h="fit-content"
-                      borderRadius="md"
+        <Flex className="flexxy" direction="column" height="100%">
+          <Heading textAlign="center" padding="0.5em">
+            All messages in {joinedRoom}
+          </Heading>
+          <Box
+            ref={scrollBox}
+            height="100%"
+            className="scrollBox"
+            padding="2em"
+          >
+            <Box width="70%" margin="auto">
+              {chatMessages && (
+                <ul id="messages">
+                  {messages.map((chatMessage, index) => (
+                    <Flex
+                      direction="column"
+                      align={
+                        chatMessage.sender === nickname
+                          ? 'flex-start'
+                          : 'flex-end'
+                      }
+                      margin=".5rem 0"
+                      key={index}
                     >
-                      <Text>{chatMessage.body}</Text>
-                    </Box>
-                    <Text fontStyle="italic" fontSize="0.8rem" color="black">
-                      From: {chatMessage.sender}
-                    </Text>
-                  </Box>
-                ))}
-              </ul>
-            )}
+                      <Box
+                        bg={
+                          chatMessage.sender === nickname ? 'white' : '#DDDDFF'
+                        }
+                        mt="1"
+                        p="1rem"
+                        w="fit-content"
+                        maxW="20rem"
+                        h="fit-content"
+                        borderRadius="md"
+                      >
+                        <Text fontWeight="bold" fontSize="0.8rem" color="black">
+                          {chatMessage.sender}
+                        </Text>
+                        <Text>{chatMessage.body}</Text>
+                      </Box>
+                    </Flex>
+                  ))}
+                </ul>
+              )}
+            </Box>
           </Box>
-          <Box w="100%" bottom="0" left="0" right="0">
-            <Text>{writingMessage && 'someone is writing a message...'}</Text>
-
-            <ChatForm {...{ setWritingMessage, writingMessage, setMessage }} />
+          <Box className="footer">
+            <Box height="2rem" padding="0 1rem">
+              <Text>{writingMessage && 'someone is writing a message...'}</Text>
+            </Box>
+            <ChatForm {...{ setWritingMessage, writingMessage }} />
           </Box>
         </Flex>
       )}

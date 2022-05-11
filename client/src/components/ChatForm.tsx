@@ -14,27 +14,23 @@ import { useSocket } from '../context/socketContext';
 interface formProps {
   setWritingMessage: Dispatch<SetStateAction<boolean>>;
   writingMessage: boolean;
-  setMessage: Dispatch<SetStateAction<string>>;
 }
+
 type Inputs = {
   input: string;
 };
 
-function ChatForm({
-  setWritingMessage,
-  writingMessage,
-  setMessage,
-}: formProps) {
+function ChatForm({ setWritingMessage, writingMessage }: formProps) {
   const { register, handleSubmit, watch, reset } = useForm<Inputs>();
   const { socket, joinedRoom } = useSocket();
 
-  if (setWritingMessage) {
-    if (watch('input')) {
-      setWritingMessage(writingMessage);
+  //if (setWritingMessage) {
+  if (watch('input')) {
+    //setWritingMessage(writingMessage);
 
-      socket.emit('isWriting', true);
-    }
+    socket.emit('isWriting', true);
   }
+  //}
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (data.input.length === 0) {
@@ -42,12 +38,9 @@ function ChatForm({
       return;
     }
 
-    setMessage(data.input);
-
     socket.emit('message', data.input, joinedRoom);
     socket.emit('isWriting', false);
     setWritingMessage(false);
-    setMessage('');
     reset();
   };
 

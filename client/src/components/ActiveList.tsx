@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Text } from '@chakra-ui/react';
 import MessageIcon from '@mui/icons-material/Message';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSocket } from '../context/socketContext';
 import { User } from '../../../types';
 
