@@ -82,8 +82,13 @@ function MessageContainer() {
           </Button>
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Name your room</ModalHeader>
+            <ModalContent
+              p={5}
+              pt={10}
+              textAlign="center"
+              bg="white"
+              height="20vh"
+            >
               <ModalCloseButton />
               <ModalBody>
                 <Form {...{ setCreatingRoom, creatingRoom }} />
@@ -99,26 +104,29 @@ function MessageContainer() {
               {chatMessages && (
                 <ul id="messages">
                   {messages.map((chatMessage, index) => (
-                    <Box
-                      key={index}
-                      bg="#739099"
-                      mt="1"
-                      p="1.5"
-                      w="fit-content"
-                      borderRadius="md"
-                    >
-                      <Text bg="blackAlpha.500" color="gray.100">
+                    <>
+                      <Box
+                        key={index}
+                        bg="white"
+                        mt="1"
+                        p="1rem"
+                        w="fit-content"
+                        maxW="20rem"
+                        h="fit-content"
+                        borderRadius="md"
+                      >
+                        <Text>{chatMessage.body}</Text>
+                      </Box>
+                      <Text fontStyle="italic" fontSize="0.8rem" color="black">
                         From: {chatMessage.sender}
                       </Text>
-                      <Text>{chatMessage.body}</Text>
-                    </Box>
+                    </>
                   ))}
                 </ul>
               )}
             </Box>
           </Box>
           <Box position="absolute" bottom={0} w="100%">
-            
             <Text>{writingMessage && "someone is writing a message..."}</Text>
 
             <ChatForm

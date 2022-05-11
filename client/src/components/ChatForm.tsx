@@ -61,8 +61,11 @@ function ChatForm({
       <FormControl>
         <InputGroup>
           <Input
+            bg="#ffffff2b"
+            border="none"
             type="text"
             id="input"
+            placeholder='Write a message...'
             autoComplete="off"
             {...register('input')}
           />

@@ -1,4 +1,4 @@
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import {
   Modal,
   ModalOverlay,
@@ -12,11 +12,11 @@ import {
   Box,
   Text,
   Center,
-  Divider
-} from '@chakra-ui/react';
-import Form from './Form';
-import { useContext, useEffect, useState } from 'react';
-import { SocketContext } from '../context/socketContext';
+  Divider,
+} from "@chakra-ui/react";
+import Form from "./Form";
+import { useContext, useEffect, useState } from "react";
+import { SocketContext } from "../context/socketContext";
 
 function RoomList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,39 +36,38 @@ function RoomList() {
 
   return (
     <Center flexDirection="column" h="50vh" position="relative">
-      <Box position="absolute" top="0" >
+      <Box position="absolute" top="0">
         <Button
           onClick={() => {
             onOpen();
             setCreatingRoom(true);
-            
           }}
           rightIcon={<AddCircleOutlineRoundedIcon />}
           mb={2}
         >
           Create Room
         </Button>
-        <Text fontWeight="bold" mb={2}>All available rooms:</Text>
-        <Divider  />
+        <Text fontWeight="bold" mb={2}>
+          All available rooms:
+        </Text>
+        <Divider />
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          bg="rgb(255, 255, 255, 70%)"
-          height="50vh"
-          backdrop-filter="blur(50%)"
+          p={5}
+          pt={10}
+          textAlign="center"
+          bg="white"
+          height="20vh"
         >
-          <ModalHeader>Name your room</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Form {...{ setCreatingRoom, creatingRoom }} />
           </ModalBody>
         </ModalContent>
       </Modal>
-      <Box className="scrollBox" mt="5rem"
-      >
-
-
+      <Box className="scrollBox" mt="5rem">
         {allRooms.map((room, index) => (
           <Box
             as="button"
@@ -77,22 +76,23 @@ function RoomList() {
             borderRadius="sm"
             w="100%"
             onClick={() => {
-              if(joinedRoom !== room ){
-              socket.emit('leave', joinedRoom);
-              console.log(nickname + ' has left' + joinedRoom);
+              if (joinedRoom !== room) {
+                socket.emit("leave", joinedRoom);
+                console.log(nickname + " has left" + joinedRoom);
               }
-              if(joinedRoom === room){
-                console.log('already in this room');
-                return
+              if (joinedRoom === room) {
+                console.log("already in this room");
+                return;
               }
-              socket.emit('join', room);
-              console.log(nickname + ' has joined' + room);
+              socket.emit("join", room);
+              console.log(nickname + " has joined" + room);
             }}
           >
-            <Text fontWeight="bold" fontSize="1.2rem">{room}</Text>
+            <Text fontWeight="bold" fontSize="1.2rem">
+              {room}
+            </Text>
             <Divider mt={1} />
           </Box>
-
         ))}
       </Box>
     </Center>

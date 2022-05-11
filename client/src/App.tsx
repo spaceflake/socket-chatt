@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from "react";
 
-import './App.css';
-import MessageContainer from './components/MessageContainer';
-import MessageIcon from '@mui/icons-material/Message';
-import Form from './components/Form';
-import RoomList from './components/RoomList';
-import ActiveList from './components/ActiveList';
-import StatusBox from './components/StatusBox';
+import "./App.css";
+import MessageContainer from "./components/MessageContainer";
+import MessageIcon from "@mui/icons-material/Message";
+import Form from "./components/Form";
+import RoomList from "./components/RoomList";
+import ActiveList from "./components/ActiveList";
+import StatusBox from "./components/StatusBox";
 import {
   Box,
   Center,
@@ -20,7 +20,7 @@ import {
   TabPanels,
   Tabs,
   Text,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 function App() {
   const [isOnline, setIsOnline] = useState(false);

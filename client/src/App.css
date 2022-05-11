@@ -12,7 +12,7 @@ body,
     color: 'white' !important;
     background: 'black' !important;
     font-weight: bold;
-    border-color: white !important;
+    border-color: rgb(130, 130, 130) !important;
 }
 
 *:active {
