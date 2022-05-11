@@ -4,6 +4,10 @@ import { Message } from '../types';
 const map = new Map<string, Message[]>();
 // const mapAlt: { [key: string]: Message[] } = {};
 
+export function deleteRoom(room: string) {
+  map.delete(room);
+}
+
 export function getMessagesForRoom(room: string) {
   // Get messages from room and return empty array if undefined
   return map.get(room) ?? [];

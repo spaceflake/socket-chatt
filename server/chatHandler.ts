@@ -1,7 +1,11 @@
 import type { IOServer, IOSocket } from './server';
 import { getRooms, getUsers, getUsersInRoom } from './roomStore';
 import { ServerSocketData, Message } from '../types';
-import { addMessageToRoom, getMessagesForRoom } from './roomMessageStore';
+import {
+  addMessageToRoom,
+  deleteRoom,
+  getMessagesForRoom,
+} from './roomMessageStore';
 
 export default (io: IOServer, socket: IOSocket) => {
   socket.on('join', (room) => {
@@ -29,6 +33,12 @@ export default (io: IOServer, socket: IOSocket) => {
 
   socket.on('leave', (room) => {
     socket.leave(room);
+
+    const users = getUsersInRoom(io, room);
+    if (users.length === 0) {
+      deleteRoom(room);
+    }
+
     // io.to(room).emit('left', `user has left the room`);
     // remove room if room is empty   room.sockets.length bleh something?
     io.emit('roomList', getRooms(io));
