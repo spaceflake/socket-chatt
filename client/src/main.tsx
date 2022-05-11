@@ -29,9 +29,7 @@ const customTheme = extendTheme({
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <SocketProvider>
     <ChakraProvider theme={theme}>
-      <Text color="text">
-        <App />
-      </Text>
+      <App />
     </ChakraProvider>
   </SocketProvider>
 );
