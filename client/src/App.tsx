@@ -61,9 +61,14 @@ function App() {
             boxShadow="10px 10px 10px 3px rgba(0,0,0, 0.1)"
           >
             {/* conditional for active users in room */}
-            <Flex direction="column" maxW="20vw"
-            gap="2rem" maxH="100%" position="relative">
-              <Box mt={5} p={2}  className="leftSideBar">
+            <Flex
+              direction="column"
+              maxW="20vw"
+              gap="2rem"
+              maxH="100%"
+              position="relative"
+            >
+              <Box mt={5} p={2} className="leftSideBar">
                 <Tabs size="md" borderColor="white">
                   <TabList>
                     <Tab>Rooms</Tab>
@@ -74,24 +79,37 @@ function App() {
                       <RoomList />
                     </TabPanel>
                     <TabPanel>
-                      <Text>
-                        All direct messages:
-                      </Text>
+                      <Text>All direct messages:</Text>
                       <Divider mt={5} mb={5} />
                       <Box className="scrollBox">
-                      {/* Do the loop of all users in a (private) room */}
-                      <ul>
-                        <li><Text font-size="1rem">Morran <MessageIcon /></Text></li>
-                        <Divider />
-                        <li><Text font-size="1rem">Emma <MessageIcon /></Text></li>
-                        <Divider />
-                        <li><Text font-size="1rem">Julia <MessageIcon /></Text></li>
-                        <Divider />
-                        <li><Text font-size="1rem">Malin <MessageIcon /></Text></li>
-                        <Divider />
-                      </ul>
+                        {/* Do the loop of all users in a (private) room */}
+                        <ul>
+                          <li>
+                            <Text>
+                              Morran <MessageIcon />
+                            </Text>
+                          </li>
+                          <Divider />
+                          <li>
+                            <Text>
+                              Emma <MessageIcon />
+                            </Text>
+                          </li>
+                          <Divider />
+                          <li>
+                            <Text>
+                              Julia <MessageIcon />
+                            </Text>
+                          </li>
+                          <Divider />
+                          <li>
+                            <Text>
+                              Malin <MessageIcon />
+                            </Text>
+                          </li>
+                          <Divider />
+                        </ul>
                       </Box>
-
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
