@@ -10,12 +10,14 @@ export type User = {
 
 export interface ServerToClientEvents {
   message: (message: Message) => void;
+  history: (messages: Message[]) => void;
   connected: (nickname: string) => void;
   roomList: (rooms: string[]) => void;
   joined: (room: string) => void;
   left: (room: string) => void;
   _error: (errorMessage: string) => void;
   userList: (users: User[]) => void;
+  isWriting: (isWriting: boolean) => void
 }
 
 export interface ClientToServerEvents {
@@ -23,6 +25,8 @@ export interface ClientToServerEvents {
   join: (room: string) => void;
   leave: (room: string) => void;
   connected: (nickname: string) => void;
+  isWriting: (isWriting: boolean) => void
+  // addToMsgStore: (room: string, message: Message) => void;
 }
 
 export interface InterServerEvents {}

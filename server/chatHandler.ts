@@ -1,6 +1,11 @@
 import type { IOServer, IOSocket } from './server';
 import { getRooms, getUsers, getUsersInRoom } from './roomStore';
-import { ServerSocketData } from '../types';
+import { ServerSocketData, Message } from '../types';
+import {
+  addMessageToRoom,
+  deleteRoom,
+  getMessagesForRoom,
+} from './roomMessageStore';
 
 export default (io: IOServer, socket: IOSocket) => {
   socket.on('join', (room) => {
@@ -15,10 +20,25 @@ export default (io: IOServer, socket: IOSocket) => {
 
     socket.emit('joined', room);
     io.to(room).emit('userList', getUsersInRoom(io, room));
+
+    socket.on('isWriting', (isWriting) => {
+      socket.broadcast.to(room).emit('isWriting', isWriting);
+      console.log(isWriting);
+    });
+
+    // Get messages from room and emit to client
+    const history = getMessagesForRoom(room);
+    socket.emit('history', history);
   });
 
   socket.on('leave', (room) => {
     socket.leave(room);
+
+    const users = getUsersInRoom(io, room);
+    if (users.length === 0) {
+      deleteRoom(room);
+    }
+
     // io.to(room).emit('left', `user has left the room`);
     // remove room if room is empty   room.sockets.length bleh something?
     io.emit('roomList', getRooms(io));
@@ -51,5 +71,7 @@ export default (io: IOServer, socket: IOSocket) => {
       body: message,
       sender: socket.data.nickname,
     });
+
+    addMessageToRoom(to, { sender: socket.data.nickname, body: message });
   });
 };

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction, useContext, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import {
@@ -21,14 +21,20 @@ type Inputs = {
   input: string;
 };
 
-function ChatForm({ setWritingMessage, message, setMessage }: formProps) {
+function ChatForm({
+  setWritingMessage,
+  writingMessage,
+  message,
+  setMessage,
+}: formProps) {
   const { register, handleSubmit, watch, reset } = useForm<Inputs>();
   const { socket, nickname, joinedRoom } = useContext(SocketContext);
 
   if (setWritingMessage) {
     if (watch('input')) {
-      setWritingMessage(true);
-      console.log('test random');
+      setWritingMessage(writingMessage);
+
+      socket.emit('isWriting', true);
     }
   }
 
@@ -44,6 +50,7 @@ function ChatForm({ setWritingMessage, message, setMessage }: formProps) {
 
     socket.emit('message', data.input, joinedRoom);
     console.log('test 2');
+    socket.emit('isWriting', false);
     setWritingMessage(false);
     setMessage('');
     reset();
