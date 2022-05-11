@@ -57,7 +57,7 @@ function RoomList() {
         </ModalContent>
       </Modal>
       <Box className="scrollBox" mt="5rem">
-        {allRooms.map((room, index) => (
+        {allRooms.map((room) => (
           <Box
             as="button"
             key={room}

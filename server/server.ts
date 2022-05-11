@@ -25,7 +25,7 @@ export type IOSocket = Socket<
 
 io.use((socket, next) => {
   const nickname: string = socket.handshake.auth.nickname;
-  if (!nickname || nickname.length < 3) {
+  if (!nickname) {
     return next(new Error('Invalid nickname'));
   }
   socket.data.nickname = nickname;

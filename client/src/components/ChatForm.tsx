@@ -14,7 +14,6 @@ import { useSocket } from '../context/socketContext';
 interface formProps {
   setWritingMessage: Dispatch<SetStateAction<boolean>>;
   writingMessage: boolean;
-  message: string;
   setMessage: Dispatch<SetStateAction<string>>;
 }
 type Inputs = {
@@ -24,7 +23,6 @@ type Inputs = {
 function ChatForm({
   setWritingMessage,
   writingMessage,
-  message,
   setMessage,
 }: formProps) {
   const { register, handleSubmit, watch, reset } = useForm<Inputs>();

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import {
   Button,
@@ -8,7 +8,7 @@ import {
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/react';
-import { SocketContext } from '../context/socketContext';
+import { useSocket } from '../context/socketContext';
 
 interface formProps {
   setIsOnline?: Dispatch<SetStateAction<boolean>>;
@@ -22,7 +22,7 @@ type Inputs = {
 function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
   const { register, handleSubmit, watch } = useForm<Inputs>();
 
-  const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
+  const { socket, joinedRoom } = useSocket();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (socket && !creatingRoom) {

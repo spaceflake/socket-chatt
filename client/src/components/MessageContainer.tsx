@@ -12,7 +12,6 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
@@ -24,7 +23,7 @@ import ChatForm from './ChatForm';
 
 function MessageContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [message, setMessage] = useState('');
+  const [_, setMessage] = useState('');
   const [writingMessage, setWritingMessage] = useState(false);
   const { socket, joinedRoom, chatMessages } = useSocket();
   const [creatingRoom, setCreatingRoom] = useState(false);
@@ -142,9 +141,7 @@ function MessageContainer() {
           <Box w="100%" bottom="0" left="0" right="0">
             <Text>{writingMessage && 'someone is writing a message...'}</Text>
 
-            <ChatForm
-              {...{ setWritingMessage, writingMessage, message, setMessage }}
-            />
+            <ChatForm {...{ setWritingMessage, writingMessage, setMessage }} />
           </Box>
         </Flex>
       )}
