@@ -63,12 +63,12 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
       <FormControl>
         <FormLabel htmlFor="input">
           {setIsOnline
-            ? "Enter your nickname, stupid!"
+            ? "Enter nickname"
             : setCreatingRoom
             ? "Enter roomname"
             : ""}
         </FormLabel>
-        <InputGroup>
+        <InputGroup textAlign="center">
           <Input
             type="text"
             id="input"
