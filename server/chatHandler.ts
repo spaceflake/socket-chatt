@@ -1,7 +1,7 @@
 import type { IOServer, IOSocket } from './server';
 import { getRooms, getUsers, getUsersInRoom } from './roomStore';
 import { ServerSocketData, Message } from '../types';
-import { addMessageToRoom } from './roomMessageStore';
+import { addMessageToRoom, getMessagesForRoom } from './roomMessageStore';
 
 export default (io: IOServer, socket: IOSocket) => {
   socket.on('join', (room) => {
@@ -16,6 +16,10 @@ export default (io: IOServer, socket: IOSocket) => {
 
     socket.emit('joined', room);
     io.to(room).emit('userList', getUsersInRoom(io, room));
+
+    // Get messages from room and emit to client
+    const history = getMessagesForRoom(room);
+    socket.emit('history', history);
   });
 
   socket.on('leave', (room) => {

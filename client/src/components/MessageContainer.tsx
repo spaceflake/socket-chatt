@@ -38,15 +38,19 @@ function MessageContainer() {
   }, [creatingRoom]);
 
   useEffect(() => {
+    console.log('switched room to: ' + joinedRoom);
+  }, [joinedRoom]);
+
+  useEffect(() => {
+    // Receive room chat history
+    socket.on('history', (messages) => {
+      setMessages(messages);
+    });
+
     socket.on('message', (message) => {
       setMessages((messages) => [...messages, message]);
     });
   }, [socket]);
-
-  useEffect(() => {
-    console.log('switched room to: ' + joinedRoom);
-    setMessages([]);
-  }, [joinedRoom]);
 
   return (
     <Box

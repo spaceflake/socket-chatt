@@ -10,6 +10,7 @@ export type User = {
 
 export interface ServerToClientEvents {
   message: (message: Message) => void;
+  history: (messages: Message[]) => void;
   connected: (nickname: string) => void;
   roomList: (rooms: string[]) => void;
   joined: (room: string) => void;
