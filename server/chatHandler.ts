@@ -17,16 +17,15 @@ export default (io: IOServer, socket: IOSocket) => {
     socket.emit('joined', room);
     io.to(room).emit('userList', getUsersInRoom(io, room));
 
-     
-    socket.broadcast.to(room).emit('isWriting', true)
-    socket.on('isWriting',() => console.log('someone is writing a message'))
+    socket.on('isWriting', (isWriting) => {
+      socket.broadcast.to(room).emit('isWriting', isWriting);
+      console.log(isWriting);
+    });
 
     // Get messages from room and emit to client
     const history = getMessagesForRoom(room);
     socket.emit('history', history);
   });
-
-  
 
   socket.on('leave', (room) => {
     socket.leave(room);
@@ -57,12 +56,12 @@ export default (io: IOServer, socket: IOSocket) => {
     if (!socket.data.nickname) {
       return socket.emit('_error', 'Missing nickname on socket..');
     }
-   
+
     io.to(to).emit('message', {
       body: message,
       sender: socket.data.nickname,
     });
-     
+
     addMessageToRoom(to, { sender: socket.data.nickname, body: message });
   });
 };

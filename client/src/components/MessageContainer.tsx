@@ -47,11 +47,10 @@ function MessageContainer() {
       setMessages(messages);
     });
 
-    // socket.on('isWriting', (isWriting) =>{
-    //   // setWritingMessage(isWriting);
-    //   console.log('tjoooo' + setWritingMessage)
-    // })
-    
+    socket.on('isWriting', (isWriting) => {
+      setWritingMessage(isWriting);
+    });
+
     socket.on('message', (message) => {
       setMessages((messages) => [...messages, message]);
     });
@@ -77,25 +76,25 @@ function MessageContainer() {
           <Text fontSize="2xl" align="center">
             Either join a room <br />
             or <br />
-            <Button
-              onClick={() => {
-                onOpen();
-                setCreatingRoom(true);
-              }}
-            >
-              Create a room
-            </Button>
-            <Modal isOpen={isOpen} onClose={onClose}>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalHeader>Name your room</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                  <Form {...{ setCreatingRoom, creatingRoom }} />
-                </ModalBody>
-              </ModalContent>
-            </Modal>
           </Text>
+          <Button
+            onClick={() => {
+              onOpen();
+              setCreatingRoom(true);
+            }}
+          >
+            Create a room
+          </Button>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Name your room</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Form {...{ setCreatingRoom, creatingRoom }} />
+              </ModalBody>
+            </ModalContent>
+          </Modal>
         </Flex>
       ) : (
         <>
@@ -123,9 +122,8 @@ function MessageContainer() {
           </Box>
           <Box position="absolute" bottom={0} w="100%">
             {/* add spinner thingy */}
-            <Text>
-            </Text>
-            <Text>{ writingMessage && 'is writing'}</Text>
+            <Text></Text>
+            <Text>{writingMessage && 'is writing'}</Text>
 
             <ChatForm
               {...{ setWritingMessage, writingMessage, message, setMessage }}
