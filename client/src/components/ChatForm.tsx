@@ -47,14 +47,21 @@ function ChatForm({ setWritingMessage, writingMessage }: formProps) {
           <Input
             bg="#ffffff2b"
             border="none"
+            focusBorderColor="gray.500"
             type="text"
             id="input"
+            variant="flushed"
             placeholder="Write a message..."
             autoComplete="off"
             {...register('input')}
           />
           <InputRightElement w="fit-content" bg="rgba(255, 255, 255, 0.3)">
-            <Button type="submit">Send</Button>
+            <Button
+              type="submit"
+              _focus={{ border: '1px', borderColor: 'gray.400' }}
+            >
+              Send
+            </Button>
           </InputRightElement>
         </InputGroup>
       </FormControl>

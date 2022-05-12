@@ -37,6 +37,7 @@ function RoomList() {
           }}
           rightIcon={<AddCircleOutlineRoundedIcon />}
           mb={6}
+          _focus={{ border: '1px', borderColor: 'gray.400' }}
         >
           Create Room
         </Button>
