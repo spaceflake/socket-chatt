@@ -36,7 +36,7 @@ function RoomList() {
             setCreatingRoom(true);
           }}
           rightIcon={<AddCircleOutlineRoundedIcon />}
-          mb={2}
+          mb={6}
         >
           Create Room
         </Button>
