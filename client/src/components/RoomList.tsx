@@ -28,8 +28,8 @@ function RoomList() {
   }, [creatingRoom]);
 
   return (
-    <Center flexDirection="column" h="full">
-      <Box top="0">
+    <Box flexDirection="column" h="full">
+      <Box>
         <Button
           onClick={() => {
             onOpen();
@@ -41,9 +41,8 @@ function RoomList() {
           Create Room
         </Button>
         <Text fontWeight="bold" mb={2}>
-          All available rooms:
+          Rooms:
         </Text>
-        <Divider />
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -54,7 +53,7 @@ function RoomList() {
           </ModalBody>
         </ModalContent>
       </Modal>
-      <Box className="scrollBox" mt="5rem">
+      <Box className="scrollBox">
         {allRooms.map((room) => (
           <Box
             as="button"
@@ -62,6 +61,8 @@ function RoomList() {
             value={room}
             borderRadius="sm"
             w="100%"
+            bg="whiteAlpha.500"
+            paddingBlock="2"
             onClick={() => {
               if (joinedRoom !== room) {
                 socket.emit('leave', joinedRoom);
@@ -75,14 +76,13 @@ function RoomList() {
               console.log(nickname + ' has joined' + room);
             }}
           >
-            <Text fontWeight="bold" fontSize="1.2rem">
-              {room}
+            <Text fontWeight="bold" align="left" ml="1.5" color="gray.700">
+              #{room}
             </Text>
-            <Divider mt={1} />
           </Box>
         ))}
       </Box>
-    </Center>
+    </Box>
   );
 }
 
