@@ -15,6 +15,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Fade,
 } from '@chakra-ui/react';
 
 import { useSocket } from '../context/socketContext';
@@ -112,8 +113,8 @@ function MessageContainer() {
         </Flex>
       ) : (
         <Flex className="flexxy" direction="column" height="100%">
-          <Heading textAlign="center" padding="0.5em">
-            All messages in {joinedRoom}
+          <Heading padding="0.5em" size="md" bg="white" color="gray.400">
+            #{joinedRoom}
           </Heading>
           <Box
             ref={scrollBox}
@@ -121,7 +122,7 @@ function MessageContainer() {
             className="scrollBox"
             padding="2em"
           >
-            <Box width="70%" margin="auto">
+            <Box margin="auto">
               {chatMessages && (
                 <ul id="messages">
                   {messages.map((chatMessage, index) => (
@@ -158,9 +159,13 @@ function MessageContainer() {
             </Box>
           </Box>
           <Box className="footer">
-            <Box height="2rem" padding="0 1rem">
-              <Text>{writingMessage && 'someone is writing a message...'}</Text>
-            </Box>
+            <Fade in={writingMessage}>
+              <Box height="2rem" padding="0 1rem">
+                <Text>
+                  {writingMessage && 'someone is writing a message...'}
+                </Text>
+              </Box>
+            </Fade>
             <ChatForm {...{ setWritingMessage, writingMessage }} />
           </Box>
         </Flex>
