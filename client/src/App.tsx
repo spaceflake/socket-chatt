@@ -9,17 +9,17 @@ import ActiveList from './components/ActiveList';
 import StatusBox from './components/StatusBox';
 import {
   Box,
-  Center,
   Container,
-  Divider,
   Flex,
   Heading,
+  Show,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
+  VStack,
 } from '@chakra-ui/react';
 
 function App() {
@@ -29,97 +29,99 @@ function App() {
     <Container
       bg="linear-gradient(77deg, rgba(240,204,233,1) 0%, rgba(114,19,255,1) 100%)"
       maxW="100%"
-      h="100vh"
+      h="full"
       display="flex"
       alignItems="center"
       justifyContent="center"
-      padding="3rem"
+      padding="3vw"
       margin="0"
     >
       {!isOnline ? (
-        <Flex
-          h="80%"
+        <Container
+          minH="25rem"
           bg="rgba(255,255,255, 0.5)"
-          w="50%"
-          justify="center"
-          align="center"
-          direction="column"
-          borderRadius="1rem"
           boxShadow="10px 10px 10px 3px rgba(0,0,0, 0.1)"
+          borderRadius="1rem"
+          centerContent
         >
-          <Heading mb="1rem">Welcome</Heading>
-          <Form {...{ setIsOnline }} />
-        </Flex>
+          <Box h="30rem" alignItems="center">
+            <VStack h="30rem" alignItems="center" justify="center">
+              <Heading>Welcome to ChatUp</Heading>
+
+              <Form {...{ setIsOnline }} />
+            </VStack>
+          </Box>
+        </Container>
       ) : (
-        <>
-          {/* the big main container */}
-          <Flex
-            h="100%"
-            w="100%"
-            borderRadius="1rem"
-            bg="rgb(195, 195, 195, 50%)"
-            boxShadow="10px 10px 10px 3px rgba(0,0,0, 0.1)"
-          >
-            {/* conditional for active users in room */}
-            <Flex direction="column" maxW="20vw"
-            gap="2rem" maxH="100%" position="relative">
-              <Box mt={5} p={2}  className="leftSideBar">
-                <Tabs size="md" borderColor="white">
+        <Flex
+          h="100%"
+          w="100%"
+          borderRadius="2xl"
+          bg="rgb(195, 195, 195, 50%)"
+          boxShadow="10px 10px 10px 3px rgba(0,0,0, 0.1)"
+          overflow="hidden"
+        >
+          <Flex direction="column" gap="2rem">
+            <Box flex="1" mt={5} p={2}>
+              <RoomList />
+              {/* <Tabs size="md" borderColor="white">
                   <TabList>
                     <Tab>Rooms</Tab>
                     <Tab>Direct Messages</Tab>
                   </TabList>
                   <TabPanels>
                     <TabPanel>
-                      <RoomList />
                     </TabPanel>
                     <TabPanel>
-                      <Text>
-                        All direct messages:
-                      </Text>
+                      <Text>All direct messages:</Text>
                       <Divider mt={5} mb={5} />
                       <Box className="scrollBox">
-                      {/* Do the loop of all users in a (private) room */}
-                      <ul>
-                        <li><Text font-size="1rem">Morran <MessageIcon /></Text></li>
-                        <Divider />
-                        <li><Text font-size="1rem">Emma <MessageIcon /></Text></li>
-                        <Divider />
-                        <li><Text font-size="1rem">Julia <MessageIcon /></Text></li>
-                        <Divider />
-                        <li><Text font-size="1rem">Malin <MessageIcon /></Text></li>
-                        <Divider />
-                      </ul>
+                        <ul>
+                          <li>
+                            <Text>
+                              Morran <MessageIcon />
+                            </Text>
+                          </li>
+                          <Divider />
+                          <li>
+                            <Text>
+                              Emma <MessageIcon />
+                            </Text>
+                          </li>
+                          <Divider />
+                          <li>
+                            <Text>
+                              Julia <MessageIcon />
+                            </Text>
+                          </li>
+                          <Divider />
+                          <li>
+                            <Text>
+                              Malin <MessageIcon />
+                            </Text>
+                          </li>
+                          <Divider />
+                        </ul>
                       </Box>
-
                     </TabPanel>
                   </TabPanels>
-                </Tabs>
-              </Box>
-              <Box
-                position="absolute"
-                bottom="0"
-                w="100%"
-                padding={2}
-                borderTop="3px"
-                borderColor="white"
-                borderTopStyle="solid"
-              >
-                <StatusBox />
-              </Box>
-            </Flex>
-            {/* should have scroll if too many items (in this specific box) */}
-            <Box mb="1rem" w="100%" h="100%">
-              <MessageContainer />
+                </Tabs> */}
             </Box>
-            <Flex direction="column" gap="2rem" h="100%" color="white" w="20vw">
-              {/* should have scroll if too many items (in this specific box) */}
-              <Box mt={5} p={5} className="rightSideBar">
-                <ActiveList />
-              </Box>
-            </Flex>
+            <Box borderTop="3px" borderColor="white" borderTopStyle="solid">
+              <StatusBox />
+            </Box>
           </Flex>
-        </>
+          {/* should have scroll if too many items (in this specific box) */}
+          <Box flex="1">
+            <MessageContainer />
+          </Box>
+          <Flex direction="column" gap="2rem" color="white" w="fit-content">
+            {/* should have scroll if too many items (in this specific box) */}
+            <Box mt={5} p={5} className="rightSideBar">
+              <ActiveList />
+            </Box>
+          </Flex>
+        </Flex>
       )}
     </Container>
   );

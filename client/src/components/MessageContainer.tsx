@@ -1,5 +1,5 @@
 import Form from './Form';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Message } from '../../../types';
 
 import {
@@ -12,24 +12,24 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Fade,
 } from '@chakra-ui/react';
 
-import { SocketContext } from '../context/socketContext';
+import { useSocket } from '../context/socketContext';
 import communication from '../assets/com.png';
 import ChatForm from './ChatForm';
 
 function MessageContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [message, setMessage] = useState('');
   const [writingMessage, setWritingMessage] = useState(false);
-  const { socket, nickname, allRooms, joinedRoom, chatMessages } =
-    useContext(SocketContext);
+  const { socket, nickname, joinedRoom, chatMessages } = useSocket();
   const [creatingRoom, setCreatingRoom] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const scrollBox = useRef<HTMLDivElement | null>(null);
+  const [scrollHeight, setScrollHeight] = useState(0);
 
   useEffect(() => {
     if (!creatingRoom) {
@@ -56,13 +56,23 @@ function MessageContainer() {
     });
   }, [socket]);
 
+  useEffect(() => {
+    if (scrollBox.current !== null) {
+      if (
+        scrollHeight -
+          (scrollBox.current.scrollTop + scrollBox.current.offsetHeight) <
+        1
+      ) {
+        scrollBox.current.scrollTop =
+          scrollBox.current.scrollHeight - scrollBox.current.offsetHeight;
+      }
+
+      setScrollHeight(scrollBox.current.scrollHeight);
+    }
+  }, [messages]);
+
   return (
-    <Box
-      h="100%"
-      className="scrollBox"
-      position="relative"
-      bg="rgba(255,255,255, 0.5)"
-    >
+    <Box bg="rgba(255,255,255, 0.5)" height="100%">
       {!joinedRoom ? (
         <Flex
           direction="column"
@@ -87,8 +97,13 @@ function MessageContainer() {
           </Button>
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Name your room</ModalHeader>
+            <ModalContent
+              p={5}
+              pt={10}
+              textAlign="center"
+              bg="white"
+              height="20vh"
+            >
               <ModalCloseButton />
               <ModalBody>
                 <Form {...{ setCreatingRoom, creatingRoom }} />
@@ -97,39 +112,63 @@ function MessageContainer() {
           </Modal>
         </Flex>
       ) : (
-        <>
-          <Box>
-            <Heading textAlign="center">All messages in {joinedRoom}</Heading>
-            {chatMessages && (
-              <ul id="messages">
-                {messages.map((chatMessage, index) => (
-                  <Box
-                    key={index}
-                    bg="#739099"
-                    mt="1"
-                    p="1.5"
-                    w="fit-content"
-                    borderRadius="md"
-                  >
-                    <Text bg="blackAlpha.500" color="gray.100">
-                      From: {chatMessage.sender}
-                    </Text>
-                    <Text>{chatMessage.body}</Text>
-                  </Box>
-                ))}
-              </ul>
-            )}
+        <Flex className="flexxy" direction="column" height="100%">
+          <Heading padding="0.5em" size="md" bg="white" color="gray.400">
+            #{joinedRoom}
+          </Heading>
+          <Box
+            ref={scrollBox}
+            height="100%"
+            className="scrollBox"
+            padding="2em"
+          >
+            <Box margin="auto">
+              {chatMessages && (
+                <ul id="messages">
+                  {messages.map((chatMessage, index) => (
+                    <Flex
+                      direction="column"
+                      align={
+                        chatMessage.sender === nickname
+                          ? 'flex-start'
+                          : 'flex-end'
+                      }
+                      margin=".5rem 0"
+                      key={index}
+                    >
+                      <Box
+                        bg={
+                          chatMessage.sender === nickname ? 'white' : '#DDDDFF'
+                        }
+                        mt="1"
+                        p="1rem"
+                        w="fit-content"
+                        maxW="20rem"
+                        h="fit-content"
+                        borderRadius="md"
+                      >
+                        <Text fontWeight="bold" fontSize="0.8rem" color="black">
+                          {chatMessage.sender}
+                        </Text>
+                        <Text>{chatMessage.body}</Text>
+                      </Box>
+                    </Flex>
+                  ))}
+                </ul>
+              )}
+            </Box>
           </Box>
-          <Box position="absolute" bottom={0} w="100%">
-            {/* add spinner thingy */}
-            <Text></Text>
-            <Text>{writingMessage && 'is writing'}</Text>
-
-            <ChatForm
-              {...{ setWritingMessage, writingMessage, message, setMessage }}
-            />
+          <Box className="footer">
+            <Fade in={writingMessage}>
+              <Box height="2rem" padding="0 1rem">
+                <Text>
+                  {writingMessage && 'someone is writing a message...'}
+                </Text>
+              </Box>
+            </Fade>
+            <ChatForm {...{ setWritingMessage, writingMessage }} />
           </Box>
-        </>
+        </Flex>
       )}
     </Box>
   );

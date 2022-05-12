@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import {
@@ -9,50 +9,34 @@ import {
   InputRightElement,
 } from '@chakra-ui/react';
 
-import { SocketContext } from '../context/socketContext';
+import { useSocket } from '../context/socketContext';
 
 interface formProps {
   setWritingMessage: Dispatch<SetStateAction<boolean>>;
   writingMessage: boolean;
-  message: string;
-  setMessage: Dispatch<SetStateAction<string>>;
 }
+
 type Inputs = {
   input: string;
 };
 
-function ChatForm({
-  setWritingMessage,
-  writingMessage,
-  message,
-  setMessage,
-}: formProps) {
+function ChatForm({ setWritingMessage, writingMessage }: formProps) {
   const { register, handleSubmit, watch, reset } = useForm<Inputs>();
-  const { socket, nickname, joinedRoom } = useContext(SocketContext);
+  const { socket, joinedRoom } = useSocket();
 
-  if (setWritingMessage) {
-    if (watch('input')) {
-      setWritingMessage(writingMessage);
-
-      socket.emit('isWriting', true);
-    }
+  if (watch('input')) {
+    socket.emit('isWriting', true);
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log('test 1');
-
     if (data.input.length === 0) {
       console.log('För kort meddelande');
       return;
     }
 
-    setMessage(data.input);
-
     socket.emit('message', data.input, joinedRoom);
-    console.log('test 2');
     socket.emit('isWriting', false);
     setWritingMessage(false);
-    setMessage('');
     reset();
   };
 
@@ -61,8 +45,11 @@ function ChatForm({
       <FormControl>
         <InputGroup>
           <Input
+            bg="#ffffff2b"
+            border="none"
             type="text"
             id="input"
+            placeholder="Write a message..."
             autoComplete="off"
             {...register('input')}
           />

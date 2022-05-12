@@ -1,13 +1,12 @@
-import { Button, Flex, Text } from '@chakra-ui/react';
-import { useContext } from 'react';
-import { SocketContext } from '../context/socketContext';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { useSocket } from '../context/socketContext';
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 
 function StatusBox() {
-  const { nickname } = useContext(SocketContext);
+  const { nickname } = useSocket();
 
   return (
-    <Flex gap={5} direction="column" justify="center" align="center">
+    <Box bg="whiteAlpha.500" pl="2" paddingBlock="3">
       <Text fontWeight="bold">Logged in as:</Text>
       <Flex gap={3}>
         <Text>{nickname}</Text>
@@ -15,8 +14,8 @@ function StatusBox() {
           <ExpandCircleDownIcon />
         </Text>
       </Flex>
-      <Button>Log out</Button>
-    </Flex>
+      {/* <Button>Log out</Button> */}
+    </Box>
   );
 }
 

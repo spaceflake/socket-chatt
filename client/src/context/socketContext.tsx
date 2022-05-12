@@ -1,7 +1,11 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-import { ClientToServerEvents, ServerToClientEvents, Message } from '../../../types';
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+  Message,
+} from '../../../types';
 
 interface IContext {
   socket: Socket<ServerToClientEvents, ClientToServerEvents>;
@@ -36,7 +40,9 @@ export const SocketProvider = ({ children }: Props) => {
   const [allRooms, setAllRooms] = useState(defaultState.allRooms);
   const [joinedRoom, setJoinedRoom] = useState(defaultState.joinedRoom);
   const [leftRoom, setleftRoom] = useState(defaultState.leftRoom);
-  const [chatMessages, setchatMessages] = useState<Message[]>(defaultState.chatMessages);
+  const [chatMessages, setchatMessages] = useState<Message[]>(
+    defaultState.chatMessages
+  );
 
   useEffect(() => {
     socket.on('connected', (nickname) => {

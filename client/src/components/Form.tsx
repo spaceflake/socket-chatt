@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import {
   Button,
@@ -8,7 +8,7 @@ import {
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/react';
-import { SocketContext } from '../context/socketContext';
+import { useSocket } from '../context/socketContext';
 
 interface formProps {
   setIsOnline?: Dispatch<SetStateAction<boolean>>;
@@ -20,9 +20,9 @@ type Inputs = {
 };
 
 function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
-  const { register, handleSubmit, watch, reset } = useForm<Inputs>();
+  const { register, handleSubmit, watch } = useForm<Inputs>();
 
-  const { socket, nickname, allRooms, joinedRoom } = useContext(SocketContext);
+  const { socket, joinedRoom } = useSocket();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (socket && !creatingRoom) {
@@ -63,12 +63,12 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
       <FormControl>
         <FormLabel htmlFor="input">
           {setIsOnline
-            ? 'Enter your nickname, stupid!'
+            ? 'Enter nickname'
             : setCreatingRoom
             ? 'Enter roomname'
             : ''}
         </FormLabel>
-        <InputGroup>
+        <InputGroup textAlign="center">
           <Input
             type="text"
             id="input"
@@ -76,15 +76,17 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
             {...register('input')}
           />
           <InputRightElement w="fit-content" bg="rgba(255, 255, 255, 0.3)">
-            <Button type="submit" variant="ghost" disabled={!watch('input')}>
+            <Button
+              type="submit"
+              color="black"
+              bg="blackAlpha.100"
+              disabled={!watch('input')}
+            >
               {!creatingRoom ? 'Send' : 'Create Room'}
             </Button>
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      {/* <Button type="submit" w="full" variant="solid" disabled={!watch('input')}>
-        {creatingRoom ? 'Create Room' : setIsOnline ? 'Enter' : ''}
-      </Button> */}
     </form>
   );
 }
