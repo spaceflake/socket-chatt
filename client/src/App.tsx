@@ -59,6 +59,7 @@ function App() {
           borderRadius="2xl"
           bg="rgb(195, 195, 195, 50%)"
           boxShadow="10px 10px 10px 3px rgba(0,0,0, 0.1)"
+          overflow="hidden"
         >
           <Flex direction="column" gap="2rem">
             <Box flex="1" mt={5} p={2}>
@@ -106,12 +107,7 @@ function App() {
                   </TabPanels>
                 </Tabs> */}
             </Box>
-            <Box
-              padding={2}
-              borderTop="3px"
-              borderColor="white"
-              borderTopStyle="solid"
-            >
+            <Box borderTop="3px" borderColor="white" borderTopStyle="solid">
               <StatusBox />
             </Box>
           </Flex>
