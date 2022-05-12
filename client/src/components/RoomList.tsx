@@ -4,8 +4,6 @@ import {
   ModalOverlay,
   ModalContent,
   Button,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
