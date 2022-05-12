@@ -70,6 +70,7 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
         </FormLabel>
         <InputGroup textAlign="center">
           <Input
+            focusBorderColor="gray.500"
             type="text"
             id="input"
             autoComplete="off"

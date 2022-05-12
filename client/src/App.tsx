@@ -13,6 +13,7 @@ import {
   Flex,
   Heading,
   Show,
+  Spacer,
   Tab,
   TabList,
   TabPanel,
@@ -45,7 +46,7 @@ function App() {
           centerContent
         >
           <Box h="30rem" alignItems="center">
-            <VStack h="30rem" alignItems="center" justify="center">
+            <VStack h="full" alignItems="center" justify="center">
               <Heading>Welcome to ChatUp</Heading>
 
               <Form {...{ setIsOnline }} />

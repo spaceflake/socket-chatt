@@ -47,6 +47,7 @@ function ChatForm({ setWritingMessage, writingMessage }: formProps) {
           <Input
             bg="#ffffff2b"
             border="none"
+            focusBorderColor="gray.500"
             type="text"
             id="input"
             placeholder="Write a message..."
