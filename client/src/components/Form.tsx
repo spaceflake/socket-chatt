@@ -46,6 +46,7 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
 
       if (joinedRoom === room) {
         console.log("room aldready exists");
+        setCreatingRoom(false);
         return;
       }
 
