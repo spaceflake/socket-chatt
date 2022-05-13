@@ -1,26 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-
-import './App.css';
-import MessageContainer from './components/MessageContainer';
-import MessageIcon from '@mui/icons-material/Message';
-import Form from './components/Form';
-import RoomList from './components/RoomList';
-import ActiveList from './components/ActiveList';
-import StatusBox from './components/StatusBox';
-import {
-  Box,
-  Container,
-  Flex,
-  Heading,
-  Show,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { useState } from "react";
+import "./App.css";
+import MessageContainer from "./components/MessageContainer";
+import Form from "./components/Form";
+import RoomList from "./components/RoomList";
+import ActiveList from "./components/ActiveList";
+import StatusBox from "./components/StatusBox";
+import { Box, Container, Flex, Heading, VStack } from "@chakra-ui/react";
 
 function App() {
   const [isOnline, setIsOnline] = useState(false);
@@ -64,59 +49,15 @@ function App() {
           <Flex direction="column" gap="2rem">
             <Box flex="1" mt={5} p={2}>
               <RoomList />
-              {/* <Tabs size="md" borderColor="white">
-                  <TabList>
-                    <Tab>Rooms</Tab>
-                    <Tab>Direct Messages</Tab>
-                  </TabList>
-                  <TabPanels>
-                    <TabPanel>
-                    </TabPanel>
-                    <TabPanel>
-                      <Text>All direct messages:</Text>
-                      <Divider mt={5} mb={5} />
-                      <Box className="scrollBox">
-                        <ul>
-                          <li>
-                            <Text>
-                              Morran <MessageIcon />
-                            </Text>
-                          </li>
-                          <Divider />
-                          <li>
-                            <Text>
-                              Emma <MessageIcon />
-                            </Text>
-                          </li>
-                          <Divider />
-                          <li>
-                            <Text>
-                              Julia <MessageIcon />
-                            </Text>
-                          </li>
-                          <Divider />
-                          <li>
-                            <Text>
-                              Malin <MessageIcon />
-                            </Text>
-                          </li>
-                          <Divider />
-                        </ul>
-                      </Box>
-                    </TabPanel>
-                  </TabPanels>
-                </Tabs> */}
             </Box>
             <Box borderTop="3px" borderColor="white" borderTopStyle="solid">
               <StatusBox />
             </Box>
           </Flex>
-          {/* should have scroll if too many items (in this specific box) */}
           <Box flex="1">
             <MessageContainer />
           </Box>
           <Flex direction="column" gap="2rem" color="white" w="fit-content">
-            {/* should have scroll if too many items (in this specific box) */}
             <Box mt={5} p={5} className="rightSideBar">
               <ActiveList />
             </Box>
