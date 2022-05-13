@@ -28,7 +28,7 @@ function RoomList() {
 
   return (
     <Box flexDirection="column" h="full">
-      <Box>
+      <Flex direction="column" alignContent="center" alignItems="center">
         <Button
         textAlign="center"
          w={[15,130,150]}
@@ -45,7 +45,7 @@ function RoomList() {
         <Text fontWeight="bold" mb={2}>
           Rooms:
         </Text>
-      </Box>
+      </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent p={5} pt={10} textAlign="center" bg="white" height="20vh">
