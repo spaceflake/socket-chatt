@@ -1,11 +1,12 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
-import { io, Socket } from "socket.io-client";
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import { io, Socket } from 'socket.io-client';
 
 import {
   ClientToServerEvents,
   ServerToClientEvents,
   Message,
-} from "../../../types";
+  User,
+} from '../../../types';
 
 interface IContext {
   socket: Socket<ServerToClientEvents, ClientToServerEvents>;
@@ -16,6 +17,7 @@ interface IContext {
   leftRoom: string;
   chatMessages: Message[];
   users: string[];
+  usersInRoom: User[];
 }
 
 interface Props {
@@ -24,13 +26,14 @@ interface Props {
 
 const defaultState = {
   socket: io({ autoConnect: false }),
-  nickname: "",
+  nickname: '',
   allRooms: [],
-  joinedRoom: "",
+  joinedRoom: '',
   setJoinedRoom: () => {},
-  leftRoom: "",
+  leftRoom: '',
   chatMessages: [],
   users: [],
+  usersInRoom: [],
 };
 
 export const SocketContext = createContext<IContext>(defaultState);
@@ -45,27 +48,32 @@ export const SocketProvider = ({ children }: Props) => {
   const [chatMessages, setchatMessages] = useState<Message[]>(
     defaultState.chatMessages
   );
+  const [usersInRoom, setUsersInRoom] = useState<User[]>([]);
 
   useEffect(() => {
-    socket.on("connected", (nickname) => {
-      console.log("Nickname: " + nickname);
+    socket.on('connected', (nickname) => {
+      console.log('Nickname: ' + nickname);
       setNickname(nickname);
       setUsers([...users, nickname]);
       console.log(users);
     });
 
-    socket.on("roomList", (rooms) => {
-      console.log("the list of all rooms: " + rooms);
+    socket.on('userList', (users) => {
+      setUsersInRoom(users);
+    });
+
+    socket.on('roomList', (rooms) => {
+      console.log('the list of all rooms: ' + rooms);
       setAllRooms(allRooms.concat(rooms));
     });
 
-    socket.on("joined", (room) => {
-      console.log("user has joined room: " + room);
+    socket.on('joined', (room) => {
+      console.log('user has joined room: ' + room);
       setJoinedRoom(room);
     });
 
-    socket.on("left", (room) => {
-      console.log("user has left room: " + room);
+    socket.on('left', (room) => {
+      console.log('user has left room: ' + room);
       setleftRoom(room);
     });
 
@@ -87,6 +95,7 @@ export const SocketProvider = ({ children }: Props) => {
         leftRoom,
         chatMessages,
         users,
+        usersInRoom,
       }}
     >
       {children}
