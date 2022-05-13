@@ -112,7 +112,7 @@ function MessageContainer() {
           </Modal>
         </Flex>
       ) : (
-        <Flex className="flexxy" direction="column" height="100%">
+        <Flex direction="column" height="100%">
           <Heading padding="0.5em" size="md" bg="white" color="gray.400">
             #{joinedRoom}
           </Heading>
@@ -158,7 +158,7 @@ function MessageContainer() {
               )}
             </Box>
           </Box>
-          <Box className="footer">
+          <Box>
             <Fade in={writingMessage}>
               <Box height="2rem" padding="0 1rem">
                 <Text>
