@@ -9,8 +9,6 @@ import {
   useDisclosure,
   Box,
   Text,
-  Center,
-  Divider,
   Flex,
 } from '@chakra-ui/react';
 import Form from './Form';

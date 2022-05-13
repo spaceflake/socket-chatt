@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { Dispatch, SetStateAction } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import {
   Button,
   FormControl,
@@ -7,8 +7,8 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-} from '@chakra-ui/react';
-import { useSocket } from '../context/socketContext';
+} from "@chakra-ui/react";
+import { useSocket } from "../context/socketContext";
 
 interface formProps {
   setIsOnline?: Dispatch<SetStateAction<boolean>>;
@@ -35,22 +35,22 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
       let room = data.input;
 
       if (!room.length) {
-        console.log('Ogiltigt namn på rum...');
+        console.log("Ogiltigt namn på rum...");
         return;
       }
 
       if (joinedRoom !== room) {
-        socket.emit('leave', joinedRoom);
-        console.log('You left the room');
+        socket.emit("leave", joinedRoom);
+        console.log("You left the room");
       }
 
       if (joinedRoom === room) {
-        console.log('room aldready exists');
+        console.log("room aldready exists");
         return;
       }
 
-      socket.emit('join', room);
-      console.log('you entered a room');
+      socket.emit("join", room);
+      console.log("you entered a room");
 
       setCreatingRoom(false);
     }
@@ -63,26 +63,26 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
       <FormControl>
         <FormLabel htmlFor="input">
           {setIsOnline
-            ? 'Enter nickname'
+            ? "Enter nickname"
             : setCreatingRoom
-            ? 'Enter roomname'
-            : ''}
+            ? "Enter roomname"
+            : ""}
         </FormLabel>
         <InputGroup textAlign="center">
           <Input
             type="text"
             id="input"
             autoComplete="off"
-            {...register('input')}
+            {...register("input")}
           />
           <InputRightElement w="fit-content" bg="rgba(255, 255, 255, 0.3)">
             <Button
               type="submit"
               color="black"
               bg="blackAlpha.100"
-              disabled={!watch('input')}
+              disabled={!watch("input")}
             >
-              {!creatingRoom ? 'Send' : 'Create Room'}
+              {!creatingRoom ? "Send" : "Create Room"}
             </Button>
           </InputRightElement>
         </InputGroup>
