@@ -11,6 +11,7 @@ import {
   Text,
   Center,
   Divider,
+  Flex,
 } from '@chakra-ui/react';
 import Form from './Form';
 import { useContext, useEffect, useState } from 'react';
@@ -53,7 +54,7 @@ function RoomList() {
           </ModalBody>
         </ModalContent>
       </Modal>
-      <Box className="scrollBox">
+      <Flex className="scrollBox" gap="1" direction="column">
         {allRooms.map((room) => (
           <Box
             as="button"
@@ -81,7 +82,7 @@ function RoomList() {
             </Text>
           </Box>
         ))}
-      </Box>
+      </Flex>
     </Box>
   );
 }
