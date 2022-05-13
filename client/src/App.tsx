@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import "./App.css";
 import MessageContainer from "./components/MessageContainer";
@@ -6,6 +7,7 @@ import RoomList from "./components/RoomList";
 import ActiveList from "./components/ActiveList";
 import StatusBox from "./components/StatusBox";
 import { Box, Container, Flex, Heading, VStack } from "@chakra-ui/react";
+
 
 function App() {
   const [isOnline, setIsOnline] = useState(false);
@@ -30,7 +32,7 @@ function App() {
           centerContent
         >
           <Box h="30rem" alignItems="center">
-            <VStack h="30rem" alignItems="center" justify="center">
+            <VStack h="full" alignItems="center" justify="center">
               <Heading>Welcome to ChatUp</Heading>
 
               <Form {...{ setIsOnline }} />

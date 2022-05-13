@@ -40,6 +40,7 @@ function RoomList() {
           }}
           rightIcon={<AddCircleOutlineRoundedIcon />}
           mb={6}
+          _focus={{ border: '1px', borderColor: 'gray.400' }}
         >
           <Text display={["none", "block"]} fontSize={[0, 12, 15]}>
             Create Room

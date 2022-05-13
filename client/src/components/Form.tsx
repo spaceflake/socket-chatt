@@ -71,6 +71,7 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
         </FormLabel>
         <InputGroup textAlign="center">
           <Input
+            focusBorderColor="gray.500"
             type="text"
             id="input"
             autoComplete="off"
@@ -81,7 +82,8 @@ function Form({ setIsOnline, setCreatingRoom, creatingRoom }: formProps) {
               type="submit"
               color="black"
               bg="blackAlpha.100"
-              disabled={!watch("input")}
+              _focus={{ border: '1px', borderColor: 'gray.400' }}
+              disabled={!watch('input')}
             >
               {!creatingRoom ? "Send" : "Create Room"}
             </Button>
