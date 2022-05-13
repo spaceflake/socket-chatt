@@ -1,6 +1,8 @@
 # ChatUp - using Socket.io and React with Typescript
 
-Backend: Socket.io
+This assignment was to create an realtime chatt application using Socket.io. A user should be able to set their nickname, create rooms, join other rooms via a list and chat inside a room.
+
+Backend: Socket.io  
 Frontend: React TS, ChakraUi
 
 ## Developers
