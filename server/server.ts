@@ -5,7 +5,7 @@ import {
   InterServerEvents,
   ServerSocketData,
 } from '../types';
-import { getRooms, getUsers, getUsersInRoom } from './roomStore';
+import { getRooms, getUsersInRoom } from './roomStore';
 import registerChatHandler from './chatHandler';
 
 const io = new Server<
@@ -44,15 +44,9 @@ io.on('connection', (socket) => {
   if (socket.data.nickname) {
     socket.emit('connected', socket.data.nickname);
 
-    // TODO: Kolla om ett nytt rum skapats, om så sker redan en io.emit till alla sockets med alla rum.
     socket.emit('roomList', getRooms(io));
   }
 
-  // console.log(socket.data.nickname);
-
-  // io.on('connection', (socket) => {
-  //   socket.emit('userList', getUsers(io));
-  // });
 
   registerChatHandler(io, socket);
 });

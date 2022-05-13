@@ -1,6 +1,5 @@
 import type { IOServer, IOSocket } from './server';
-import { getRooms, getUsers, getUsersInRoom } from './roomStore';
-import { ServerSocketData, Message } from '../types';
+import { getRooms, getUsersInRoom } from './roomStore';
 import {
   addMessageToRoom,
   deleteRoom,
