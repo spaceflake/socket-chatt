@@ -5,6 +5,7 @@ import {
   ClientToServerEvents,
   ServerToClientEvents,
   Message,
+  User,
 } from '../../../types';
 
 interface IContext {
@@ -12,9 +13,11 @@ interface IContext {
   nickname: string;
   allRooms: string[];
   joinedRoom: string;
+  setJoinedRoom: React.Dispatch<React.SetStateAction<string>>;
   leftRoom: string;
   chatMessages: Message[];
   users: string[];
+  usersInRoom: User[];
 }
 
 interface Props {
@@ -26,9 +29,11 @@ const defaultState = {
   nickname: '',
   allRooms: [],
   joinedRoom: '',
+  setJoinedRoom: () => {},
   leftRoom: '',
   chatMessages: [],
   users: [],
+  usersInRoom: [],
 };
 
 export const SocketContext = createContext<IContext>(defaultState);
@@ -43,6 +48,7 @@ export const SocketProvider = ({ children }: Props) => {
   const [chatMessages, setchatMessages] = useState<Message[]>(
     defaultState.chatMessages
   );
+  const [usersInRoom, setUsersInRoom] = useState<User[]>([]);
 
   useEffect(() => {
     socket.on('connected', (nickname) => {
@@ -50,6 +56,10 @@ export const SocketProvider = ({ children }: Props) => {
       setNickname(nickname);
       setUsers([...users, nickname]);
       console.log(users);
+    });
+
+    socket.on('userList', (users) => {
+      setUsersInRoom(users);
     });
 
     socket.on('roomList', (rooms) => {
@@ -67,26 +77,7 @@ export const SocketProvider = ({ children }: Props) => {
       setleftRoom(room);
     });
 
-    // socket.on('message', (chatMessage: string, from) => {
-    //   console.log(
-    //     'ehheheheheehheheh' + from.nickname + ' wrote : ' + chatMessage
-    //   );
-    //   chatMessages.push({
-    //     id: from.id,
-    //     sender: from.nickname,
-    //     msg: chatMessage,
-    //   });
-    //   setchatMessages(chatMessages);
-    //   console.log(chatMessages);
-    // });
-    // socket.on('message', (chatMessage: string) => {
-    //   console.log(nickname + ' wrote : ' + chatMessage);
-    //   const newMessageList = [chatMessage, ...Messages];
-    //   setMessages(newMessageList);
-    // });
-
     return () => {
-      // Anything in here is fired on component unmount.
       if (socket) {
         socket.disconnect();
       }
@@ -100,9 +91,11 @@ export const SocketProvider = ({ children }: Props) => {
         nickname,
         allRooms,
         joinedRoom,
+        setJoinedRoom,
         leftRoom,
         chatMessages,
         users,
+        usersInRoom,
       }}
     >
       {children}

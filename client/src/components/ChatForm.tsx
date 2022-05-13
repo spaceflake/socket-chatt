@@ -25,7 +25,7 @@ function ChatForm({ setWritingMessage, writingMessage }: formProps) {
   const { socket, joinedRoom } = useSocket();
 
   if (watch('input')) {
-    socket.emit('isWriting', true);
+    socket.emit('isWriting', true, joinedRoom);
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
@@ -35,7 +35,7 @@ function ChatForm({ setWritingMessage, writingMessage }: formProps) {
     }
 
     socket.emit('message', data.input, joinedRoom);
-    socket.emit('isWriting', false);
+    socket.emit('isWriting', false, joinedRoom);
     setWritingMessage(false);
     reset();
   };

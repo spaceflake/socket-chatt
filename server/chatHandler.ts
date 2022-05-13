@@ -1,6 +1,5 @@
 import type { IOServer, IOSocket } from './server';
-import { getRooms, getUsers, getUsersInRoom } from './roomStore';
-import { ServerSocketData, Message } from '../types';
+import { getRooms, getUsersInRoom } from './roomStore';
 import {
   addMessageToRoom,
   deleteRoom,
@@ -21,14 +20,14 @@ export default (io: IOServer, socket: IOSocket) => {
     socket.emit('joined', room);
     io.to(room).emit('userList', getUsersInRoom(io, room));
 
-    // Broadcast to room the status of isWriting boolean
-    socket.on('isWriting', (isWriting) => {
-      socket.broadcast.to(room).emit('isWriting', isWriting);
-    });
-
     // Get messages from room and emit to client
     const history = getMessagesForRoom(room);
     socket.emit('history', history);
+  });
+
+  // Broadcast to room the status of isWriting boolean
+  socket.on('isWriting', (isWriting, room) => {
+    socket.broadcast.to(room).emit('isWriting', isWriting, room);
   });
 
   socket.on('leave', (room) => {
@@ -39,25 +38,8 @@ export default (io: IOServer, socket: IOSocket) => {
       deleteRoom(room);
     }
 
-    // io.to(room).emit('left', `user has left the room`);
     io.emit('roomList', getRooms(io));
   });
-
-  // list all users in ROOM
-  //   io.of("/").adapter
-  // interface ChatRoom{
-  //   name; string;
-  //   sockets: ServerSocketData[];
-  // }
-  //   function getRooms(io: IoServer):ChatRoom[]{
-  //     for (const [id, socketIds]) of io.sockets.adapter.rooms){
-  //       const sockets = Array.from(socketIds.map(id) => io.sockets.sockets.get(id)
-  //       rooms.push({
-  //         name: id;
-  //         sockets: sockets.filter((s) => s?.data) as ServerSocketData
-  //       }))
-  //     }
-  //   }
 
   socket.on('message', (message, to) => {
     console.log(message, to);

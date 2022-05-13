@@ -16,7 +16,7 @@ export function getUsers(io: IOServer) {
   const users: User[] = [];
   for (let [id, socket] of io.of('/').sockets) {
     users.push({
-      userID: id, // TODO socket.data.userID
+      userID: id,
       nickname: socket.data.nickname,
     });
   }

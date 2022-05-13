@@ -1,7 +1,8 @@
 import Form from './Form';
 import { useEffect, useRef, useState } from 'react';
 import { Message } from '../../../types';
-
+import LogoutIcon from '@mui/icons-material/Logout';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import {
   Box,
   Button,
@@ -16,20 +17,29 @@ import {
   ModalCloseButton,
   useDisclosure,
   Fade,
+  Spacer,
+  Drawer,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerBody,
 } from '@chakra-ui/react';
 
 import { useSocket } from '../context/socketContext';
 import communication from '../assets/com.png';
 import ChatForm from './ChatForm';
+import ActiveList from './ActiveList';
 
 function MessageContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [writingMessage, setWritingMessage] = useState(false);
-  const { socket, nickname, joinedRoom, chatMessages } = useSocket();
+  const { socket, nickname, joinedRoom, setJoinedRoom, chatMessages } =
+    useSocket();
   const [creatingRoom, setCreatingRoom] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const scrollBox = useRef<HTMLDivElement | null>(null);
   const [scrollHeight, setScrollHeight] = useState(0);
+
+  // const btnRef = useRef();
 
   useEffect(() => {
     if (!creatingRoom) {
@@ -82,8 +92,8 @@ function MessageContainer() {
           gap={10}
         >
           <Image w="50%" src={communication} />
-          <Heading>You have not joined a room yet</Heading>
-          <Text fontSize="2xl" align="center">
+          <Heading textAlign="center" fontSize={[18,25,35]}>You have not joined a room yet</Heading>
+          <Text fontSize={[18,20,30]} align="center">
             Either join a room <br />
             or <br />
           </Text>
@@ -113,14 +123,36 @@ function MessageContainer() {
         </Flex>
       ) : (
         <Flex direction="column" height="100%">
-          <Heading padding="0.5em" size="md" bg="white" color="gray.400">
-            #{joinedRoom}
-          </Heading>
+          <Flex bg="white" color="gray.400" alignItems="center">
+            <Heading padding="0.5em" size="md">
+              #{joinedRoom}
+            </Heading>
+            <Spacer />
+            <Button
+              onClick={() => {
+                socket.emit('leave', joinedRoom);
+                setJoinedRoom('');
+              }}
+            >
+              <LogoutIcon />
+            </Button>
+            <Button ml="3" onClick={onOpen} display={['block','block', 'none']}>
+              <PeopleOutlineIcon />
+            </Button>
+            <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+              <DrawerContent>
+                <DrawerCloseButton />
+                <DrawerBody>
+                  <ActiveList />
+                </DrawerBody>
+              </DrawerContent>
+            </Drawer>
+          </Flex>
           <Box
             ref={scrollBox}
             height="100%"
             className="scrollBox"
-            padding="2em"
+            padding="0.5em"
           >
             <Box margin="auto">
               {chatMessages && (
@@ -142,7 +174,7 @@ function MessageContainer() {
                         }
                         mt="1"
                         p="1rem"
-                        w="fit-content"
+                        w={['12rem','100%']}
                         maxW="20rem"
                         h="fit-content"
                         borderRadius="md"
