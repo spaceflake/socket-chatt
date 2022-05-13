@@ -38,7 +38,6 @@ export default (io: IOServer, socket: IOSocket) => {
       deleteRoom(room);
     }
 
-    // io.to(room).emit('left', `user has left the room`);
     io.emit('roomList', getRooms(io));
   });
 
