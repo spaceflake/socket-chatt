@@ -43,22 +43,6 @@ export default (io: IOServer, socket: IOSocket) => {
     io.emit('roomList', getRooms(io));
   });
 
-  // list all users in ROOM
-  //   io.of("/").adapter
-  // interface ChatRoom{
-  //   name; string;
-  //   sockets: ServerSocketData[];
-  // }
-  //   function getRooms(io: IoServer):ChatRoom[]{
-  //     for (const [id, socketIds]) of io.sockets.adapter.rooms){
-  //       const sockets = Array.from(socketIds.map(id) => io.sockets.sockets.get(id)
-  //       rooms.push({
-  //         name: id;
-  //         sockets: sockets.filter((s) => s?.data) as ServerSocketData
-  //       }))
-  //     }
-  //   }
-
   socket.on('message', (message, to) => {
     console.log(message, to);
 
