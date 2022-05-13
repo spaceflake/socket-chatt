@@ -136,7 +136,7 @@ function MessageContainer() {
             >
               <LogoutIcon />
             </Button>
-            <Button ml="3" onClick={onOpen}>
+            <Button ml="3" onClick={onOpen} display={['block','block', 'none']}>
               <PeopleOutlineIcon />
             </Button>
             <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
