@@ -92,8 +92,8 @@ function MessageContainer() {
           gap={10}
         >
           <Image w="50%" src={communication} />
-          <Heading>You have not joined a room yet</Heading>
-          <Text fontSize="2xl" align="center">
+          <Heading textAlign="center" fontSize={[18,25,35]}>You have not joined a room yet</Heading>
+          <Text fontSize={[18,20,30]} align="center">
             Either join a room <br />
             or <br />
           </Text>
