@@ -1,6 +1,7 @@
 import Form from './Form';
 import { useEffect, useRef, useState } from 'react';
 import { Message } from '../../../types';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import {
   Box,
@@ -16,6 +17,7 @@ import {
   ModalCloseButton,
   useDisclosure,
   Fade,
+  Spacer,
 } from '@chakra-ui/react';
 
 import { useSocket } from '../context/socketContext';
@@ -113,9 +115,13 @@ function MessageContainer() {
         </Flex>
       ) : (
         <Flex direction="column" height="100%">
-          <Heading padding="0.5em" size="md" bg="white" color="gray.400">
-            #{joinedRoom}
-          </Heading>
+          <Flex bg="white" color="gray.400" alignItems="center">
+            <Heading padding="0.5em" size="md">
+              #{joinedRoom}
+            </Heading>
+            <Spacer />
+            <LogoutIcon />
+          </Flex>
           <Box
             ref={scrollBox}
             height="100%"
