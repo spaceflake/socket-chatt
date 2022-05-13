@@ -59,7 +59,7 @@ function App() {
             <MessageContainer />
           </Box>
           <Flex direction="column" gap="2rem" color="white" w="fit-content">
-            <Box mt={5} p={5} className="rightSideBar" w={[100,150, 200]}>
+            <Box mt={5} p={5} className="rightSideBar" w={[100,150, 200]} display={['none','none', 'block']}>
               <ActiveList />
             </Box>
           </Flex>
