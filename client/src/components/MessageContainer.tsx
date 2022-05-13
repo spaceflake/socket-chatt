@@ -152,7 +152,7 @@ function MessageContainer() {
             ref={scrollBox}
             height="100%"
             className="scrollBox"
-            padding="2em"
+            padding="0.5em"
           >
             <Box margin="auto">
               {chatMessages && (
@@ -174,7 +174,7 @@ function MessageContainer() {
                         }
                         mt="1"
                         p="1rem"
-                        w="fit-content"
+                        w={['12rem','100%']}
                         maxW="20rem"
                         h="fit-content"
                         borderRadius="md"
