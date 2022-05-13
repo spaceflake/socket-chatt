@@ -27,7 +27,8 @@ import ChatForm from './ChatForm';
 function MessageContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [writingMessage, setWritingMessage] = useState(false);
-  const { socket, nickname, joinedRoom, chatMessages } = useSocket();
+  const { socket, nickname, joinedRoom, setJoinedRoom, chatMessages } =
+    useSocket();
   const [creatingRoom, setCreatingRoom] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const scrollBox = useRef<HTMLDivElement | null>(null);
@@ -123,6 +124,7 @@ function MessageContainer() {
             <Button
               onClick={() => {
                 socket.emit('leave', joinedRoom);
+                setJoinedRoom('');
               }}
             >
               <LogoutIcon />

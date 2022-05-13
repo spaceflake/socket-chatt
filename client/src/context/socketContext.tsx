@@ -12,6 +12,7 @@ interface IContext {
   nickname: string;
   allRooms: string[];
   joinedRoom: string;
+  setJoinedRoom: React.Dispatch<React.SetStateAction<string>>;
   leftRoom: string;
   chatMessages: Message[];
   users: string[];
@@ -26,6 +27,7 @@ const defaultState = {
   nickname: '',
   allRooms: [],
   joinedRoom: '',
+  setJoinedRoom: () => {},
   leftRoom: '',
   chatMessages: [],
   users: [],
@@ -100,6 +102,7 @@ export const SocketProvider = ({ children }: Props) => {
         nickname,
         allRooms,
         joinedRoom,
+        setJoinedRoom,
         leftRoom,
         chatMessages,
         users,
