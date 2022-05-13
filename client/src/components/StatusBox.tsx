@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { useSocket } from '../context/socketContext';
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 
@@ -14,7 +14,6 @@ function StatusBox() {
           <ExpandCircleDownIcon />
         </Text>
       </Flex>
-      {/* <Button>Log out</Button> */}
     </Box>
   );
 }
