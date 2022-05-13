@@ -30,14 +30,17 @@ function RoomList() {
     <Box flexDirection="column" h="full">
       <Box>
         <Button
+        textAlign="center"
+         w={[15,130,150]}
+         paddingLeft={[1.5]}
+         borderRadius={[20,8]}
           onClick={() => {
             onOpen();
             setCreatingRoom(true);
           }}
           rightIcon={<AddCircleOutlineRoundedIcon />}
           mb={6}
-        >
-          Create Room
+        ><Text  display={['none','block']} fontSize={[0,12,15]}>Create Room</Text>
         </Button>
         <Text fontWeight="bold" mb={2}>
           Rooms:

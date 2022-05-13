@@ -46,7 +46,8 @@ function App() {
           boxShadow="10px 10px 10px 3px rgba(0,0,0, 0.1)"
           overflow="hidden"
         >
-          <Flex direction="column" gap="2rem">
+          <Flex direction="column" gap="2rem" w={[100,150, 200]}>
+  
             <Box flex="1" mt={5} p={2}>
               <RoomList />
             </Box>
@@ -58,7 +59,7 @@ function App() {
             <MessageContainer />
           </Box>
           <Flex direction="column" gap="2rem" color="white" w="fit-content">
-            <Box mt={5} p={5} className="rightSideBar">
+            <Box mt={5} p={5} className="rightSideBar" w={[100,150, 200]}>
               <ActiveList />
             </Box>
           </Flex>
