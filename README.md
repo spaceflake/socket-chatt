@@ -5,9 +5,9 @@ Frontend: React TS, ChakraUi
 
 ## Developers
 
-[Olivia Isberg](https://www.example.com)  
-[Sabina Andersson](https://www.example.com)  
-[Tomas Fridekrans](https://www.example.com)
+[Olivia Isberg](https://github.com/OliviaIsberg)  
+[Sabina Andersson](https://github.com/sabinaander)  
+[Tomas Fridekrans](https://github.com/spaceflake)
 
 ## Running the project
 
