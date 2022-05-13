@@ -48,7 +48,7 @@ function App() {
         >
           <Flex direction="column" gap="2rem" w={[100,150, 200]}>
   
-            <Box flex="1" mt={5} p={2}>
+            <Box flex="1" mt={5} p={2} overflow="scroll">
               <RoomList />
             </Box>
             <Box borderTop="3px" borderColor="white" borderTopStyle="solid">
