@@ -20,14 +20,14 @@ export default (io: IOServer, socket: IOSocket) => {
     socket.emit('joined', room);
     io.to(room).emit('userList', getUsersInRoom(io, room));
 
-    // Broadcast to room the status of isWriting boolean
-    socket.on('isWriting', (isWriting) => {
-      socket.broadcast.to(room).emit('isWriting', isWriting);
-    });
-
     // Get messages from room and emit to client
     const history = getMessagesForRoom(room);
     socket.emit('history', history);
+  });
+
+  // Broadcast to room the status of isWriting boolean
+  socket.on('isWriting', (isWriting, room) => {
+    socket.broadcast.to(room).emit('isWriting', isWriting, room);
   });
 
   socket.on('leave', (room) => {
