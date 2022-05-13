@@ -1,7 +1,8 @@
-import Form from "./Form";
-import { useEffect, useRef, useState } from "react";
-import { Message } from "../../../types";
-import LogoutIcon from "@mui/icons-material/Logout";
+import Form from './Form';
+import { useEffect, useRef, useState } from 'react';
+import { Message } from '../../../types';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import {
   Box,
   Button,
@@ -17,11 +18,16 @@ import {
   useDisclosure,
   Fade,
   Spacer,
-} from "@chakra-ui/react";
+  Drawer,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerBody,
+} from '@chakra-ui/react';
 
-import { useSocket } from "../context/socketContext";
-import communication from "../assets/com.png";
-import ChatForm from "./ChatForm";
+import { useSocket } from '../context/socketContext';
+import communication from '../assets/com.png';
+import ChatForm from './ChatForm';
+import ActiveList from './ActiveList';
 
 function MessageContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -33,6 +39,8 @@ function MessageContainer() {
   const scrollBox = useRef<HTMLDivElement | null>(null);
   const [scrollHeight, setScrollHeight] = useState(0);
 
+  // const btnRef = useRef();
+
   useEffect(() => {
     if (!creatingRoom) {
       onClose();
@@ -40,20 +48,20 @@ function MessageContainer() {
   }, [creatingRoom]);
 
   useEffect(() => {
-    console.log("switched room to: " + joinedRoom);
+    console.log('switched room to: ' + joinedRoom);
   }, [joinedRoom]);
 
   useEffect(() => {
     // Receive room chat history
-    socket.on("history", (messages) => {
+    socket.on('history', (messages) => {
       setMessages(messages);
     });
 
-    socket.on("isWriting", (isWriting) => {
+    socket.on('isWriting', (isWriting) => {
       setWritingMessage(isWriting);
     });
 
-    socket.on("message", (message) => {
+    socket.on('message', (message) => {
       setMessages((messages) => [...messages, message]);
     });
   }, [socket]);
@@ -122,12 +130,23 @@ function MessageContainer() {
             <Spacer />
             <Button
               onClick={() => {
-                socket.emit("leave", joinedRoom);
-                setJoinedRoom("");
+                socket.emit('leave', joinedRoom);
+                setJoinedRoom('');
               }}
             >
               <LogoutIcon />
             </Button>
+            <Button ml="3" onClick={onOpen}>
+              <PeopleOutlineIcon />
+            </Button>
+            <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+              <DrawerContent>
+                <DrawerCloseButton />
+                <DrawerBody>
+                  <ActiveList />
+                </DrawerBody>
+              </DrawerContent>
+            </Drawer>
           </Flex>
           <Box
             ref={scrollBox}
@@ -143,15 +162,15 @@ function MessageContainer() {
                       direction="column"
                       align={
                         chatMessage.sender === nickname
-                          ? "flex-start"
-                          : "flex-end"
+                          ? 'flex-start'
+                          : 'flex-end'
                       }
                       margin=".5rem 0"
                       key={index}
                     >
                       <Box
                         bg={
-                          chatMessage.sender === nickname ? "white" : "#DDDDFF"
+                          chatMessage.sender === nickname ? 'white' : '#DDDDFF'
                         }
                         mt="1"
                         p="1rem"
@@ -175,7 +194,7 @@ function MessageContainer() {
             <Fade in={writingMessage}>
               <Box height="2rem" padding="0 1rem">
                 <Text>
-                  {writingMessage && "someone is writing a message..."}
+                  {writingMessage && 'someone is writing a message...'}
                 </Text>
               </Box>
             </Fade>
