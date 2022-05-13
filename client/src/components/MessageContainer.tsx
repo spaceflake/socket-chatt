@@ -120,7 +120,13 @@ function MessageContainer() {
               #{joinedRoom}
             </Heading>
             <Spacer />
-            <LogoutIcon />
+            <Button
+              onClick={() => {
+                socket.emit('leave', joinedRoom);
+              }}
+            >
+              <LogoutIcon />
+            </Button>
           </Flex>
           <Box
             ref={scrollBox}
